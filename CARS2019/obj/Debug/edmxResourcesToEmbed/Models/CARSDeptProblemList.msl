@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="CARSProblemListModelStoreContainer" CdmEntityContainer="Entities">
+    <EntitySetMapping Name="CARS_2019_DepartmentList">
+      <EntityTypeMapping TypeName="CARSProblemListModel.CARS_2019_DepartmentList">
+        <MappingFragment StoreEntitySet="CARS_2019_DepartmentList">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="departmentName" ColumnName="departmentName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CARS_2019_Dept_ProblemLists">
+      <EntityTypeMapping TypeName="CARSProblemListModel.CARS_2019_Dept_ProblemLists">
+        <MappingFragment StoreEntitySet="CARS_2019_Dept_ProblemLists">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="problemId" ColumnName="problemId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CARS_2019_ProblemID">
+      <EntityTypeMapping TypeName="CARSProblemListModel.CARS_2019_ProblemID">
+        <MappingFragment StoreEntitySet="CARS_2019_ProblemID">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="description" ColumnName="description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

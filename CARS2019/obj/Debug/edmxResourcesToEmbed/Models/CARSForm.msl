@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="CARSModelStoreContainer" CdmEntityContainer="Entities">
+    <EntitySetMapping Name="Reports">
+      <EntityTypeMapping TypeName="CARSModel.Report">
+        <MappingFragment StoreEntitySet="CARS_2019_Report">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="created_Date" ColumnName="created_Date" />
+          <ScalarProperty Name="customer_ID" ColumnName="customer_ID" />
+          <ScalarProperty Name="job_ID" ColumnName="job_ID" />
+          <ScalarProperty Name="problem_ID" ColumnName="problem_ID" />
+          <ScalarProperty Name="cell_ID" ColumnName="cell_ID" />
+          <ScalarProperty Name="workcenter_ID" ColumnName="workcenter_ID" />
+          <ScalarProperty Name="department_ID" ColumnName="department_ID" />
+          <ScalarProperty Name="severity_id" ColumnName="severity_id" />
+          <ScalarProperty Name="calculated_cost" ColumnName="calculated_cost" />
+          <ScalarProperty Name="note_id" ColumnName="note_id" />
+          <ScalarProperty Name="problemSub_ID" ColumnName="problemSub_ID" />
+          <ScalarProperty Name="rework_employee_ID" ColumnName="rework_employee_ID" />
+          <ScalarProperty Name="reporting_employee_ID" ColumnName="reporting_employee_ID" />
+          <ScalarProperty Name="corrective_action_ID" ColumnName="corrective_action_ID" />
+          <ScalarProperty Name="delete_flag" ColumnName="delete_flag" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CARSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Report">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="created_Date" />
+      <PropertyRef Name="customer_ID" />
+      <PropertyRef Name="job_ID" />
+      <PropertyRef Name="problem_ID" />
+      <PropertyRef Name="cell_ID" />
+      <PropertyRef Name="workcenter_ID" />
+      <PropertyRef Name="department_ID" />
+      <PropertyRef Name="severity_id" />
+      <PropertyRef Name="calculated_cost" />
+      <PropertyRef Name="note_id" />
+      <PropertyRef Name="rework_employee_ID" />
+      <PropertyRef Name="reporting_employee_ID" />
+      <PropertyRef Name="corrective_action_ID" />
+      <PropertyRef Name="delete_flag" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="created_Date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="customer_ID" Type="Int32" Nullable="false" />
+    <Property Name="job_ID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="problem_ID" Type="Int32" Nullable="false" />
+    <Property Name="cell_ID" Type="Int32" Nullable="false" />
+    <Property Name="workcenter_ID" Type="Int32" Nullable="false" />
+    <Property Name="department_ID" Type="Int32" Nullable="false" />
+    <Property Name="severity_id" Type="Int32" Nullable="false" />
+    <Property Name="calculated_cost" Type="Decimal" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="note_id" Type="Int32" Nullable="false" />
+    <Property Name="problemSub_ID" Type="Int32" />
+    <Property Name="rework_employee_ID" Type="Int32" Nullable="false" />
+    <Property Name="reporting_employee_ID" Type="Int32" Nullable="false" />
+    <Property Name="corrective_action_ID" Type="Int32" Nullable="false" />
+    <Property Name="delete_flag" Type="Byte" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Reports" EntityType="CARSModel.Report" />
+  </EntityContainer>
+</Schema>

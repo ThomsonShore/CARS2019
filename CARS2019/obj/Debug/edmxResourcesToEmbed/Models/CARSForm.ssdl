@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CARSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'TSProd.dbo.CARS_2019_Report' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="CARS_2019_Report">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="created_Date" />
+      <PropertyRef Name="customer_ID" />
+      <PropertyRef Name="job_ID" />
+      <PropertyRef Name="problem_ID" />
+      <PropertyRef Name="cell_ID" />
+      <PropertyRef Name="workcenter_ID" />
+      <PropertyRef Name="department_ID" />
+      <PropertyRef Name="severity_id" />
+      <PropertyRef Name="calculated_cost" />
+      <PropertyRef Name="note_id" />
+      <PropertyRef Name="rework_employee_ID" />
+      <PropertyRef Name="reporting_employee_ID" />
+      <PropertyRef Name="corrective_action_ID" />
+      <PropertyRef Name="delete_flag" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="created_Date" Type="datetime" Nullable="false" />
+    <Property Name="customer_ID" Type="int" Nullable="false" />
+    <Property Name="job_ID" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="problem_ID" Type="int" Nullable="false" />
+    <Property Name="cell_ID" Type="int" Nullable="false" />
+    <Property Name="workcenter_ID" Type="int" Nullable="false" />
+    <Property Name="department_ID" Type="int" Nullable="false" />
+    <Property Name="severity_id" Type="int" Nullable="false" />
+    <Property Name="calculated_cost" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="note_id" Type="int" Nullable="false" />
+    <Property Name="problemSub_ID" Type="int" />
+    <Property Name="rework_employee_ID" Type="int" Nullable="false" />
+    <Property Name="reporting_employee_ID" Type="int" Nullable="false" />
+    <Property Name="corrective_action_ID" Type="int" Nullable="false" />
+    <Property Name="delete_flag" Type="tinyint" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="CARSModelStoreContainer">
+    <EntitySet Name="CARS_2019_Report" EntityType="Self.CARS_2019_Report" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [CARS_2019_Report].[id] AS [id], 
+    [CARS_2019_Report].[created_Date] AS [created_Date], 
+    [CARS_2019_Report].[customer_ID] AS [customer_ID], 
+    [CARS_2019_Report].[job_ID] AS [job_ID], 
+    [CARS_2019_Report].[problem_ID] AS [problem_ID], 
+    [CARS_2019_Report].[cell_ID] AS [cell_ID], 
+    [CARS_2019_Report].[workcenter_ID] AS [workcenter_ID], 
+    [CARS_2019_Report].[department_ID] AS [department_ID], 
+    [CARS_2019_Report].[severity_id] AS [severity_id], 
+    [CARS_2019_Report].[calculated_cost] AS [calculated_cost], 
+    [CARS_2019_Report].[note_id] AS [note_id], 
+    [CARS_2019_Report].[problemSub_ID] AS [problemSub_ID], 
+    [CARS_2019_Report].[rework_employee_ID] AS [rework_employee_ID], 
+    [CARS_2019_Report].[reporting_employee_ID] AS [reporting_employee_ID], 
+    [CARS_2019_Report].[corrective_action_ID] AS [corrective_action_ID], 
+    [CARS_2019_Report].[delete_flag] AS [delete_flag]
+    FROM [dbo].[CARS_2019_Report] AS [CARS_2019_Report]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>

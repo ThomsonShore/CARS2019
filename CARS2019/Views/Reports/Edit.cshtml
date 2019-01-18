@@ -1,0 +1,335 @@
+﻿@model CARS2019.Models.Reports
+@*@model IEnumerable<CARS2019.Models.DepartmentCheck>*@
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+<hr />
+
+<div class="form-group">
+    <dl class="dl-horizontal">
+        <dt>Customer Name:</dt>
+        <dd id="customerName" name="customerName"></dd>
+        <dt>Customer Id:</dt>
+        <dd id="cust_ID" name="cust_ID"></dd>
+        <dt>Title:</dt>
+        <dd id="Title" name="Title"></dd>
+        <dt>CSR:</dt>
+        <dd id="CSRName" name="CSRName"></dd>
+    </dl>
+
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.id)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.reporting_employee, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.reporting_employee, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.reporting_employee, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.job_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.job_ID, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.job_ID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.customer_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.customer_ID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.customer_ID, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.department_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @*@Html.EditorFor(model => model.department_ID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.department_ID, "", new { @class = "text-danger" })*@
+
+            @Html.DropDownListFor(model => model.department_ID, new SelectList(ViewBag.data, "departmentName", "departmentName"))
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.problem_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.problem_ID, new SelectList(Enumerable.Empty<SelectListItem>()), "You must select a Deparment First")
+
+            @*@Html.EditorFor(model => model.problem_ID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.problem_ID, "", new { @class = "text-danger" })*@
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.severity_id, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.severity_id, new List<SelectListItem>
+                {
+                new SelectListItem{ Text="Minor", Value = "Minor" },
+                new SelectListItem{ Text="Major", Value = "Major" },
+                new SelectListItem{ Text="Critical", Value = "Critical" }
+                })
+        </div>
+    </div>
+
+    @if (Session["canSeeEmployee"] != null)
+    {
+        if (Session["canSeeEmployee"].ToString() == "True")
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.rework_employee, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.rework_employee, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.rework_employee, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        }
+        else
+        {
+            @Html.HiddenFor(model => model.rework_employee)
+        }
+
+
+    }
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.calculated_cost, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.calculated_cost, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.calculated_cost, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.notes, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.notes, 6, 40, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.notes, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    @if (Session["canSeeCorrectiveAction"] != null)
+    {
+        if (Session["canSeeCorrectiveAction"].ToString() == "True")
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.corrective_action, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.corrective_action, 6, 40, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.corrective_action, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        }
+        else
+        {
+            @Html.HiddenFor(model => model.corrective_action)
+        }
+
+
+    }
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.created_Date, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.created_Date, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.created_Date, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <table id="chextable" class="table table-responsive-sm table-sm" style="height:auto !important;">
+
+        <thead>
+            <tr class="row m-0" style="font-size:smaller;">
+                <th class="d-inline-block col-1">Department Name</th>
+                <th class="d-inline-block col-1">Operator Name</th>
+                <th class="d-inline-block col-1">Quantity</th>
+                <th class="d-inline-block col-1">Completed Date</th>
+            </tr>
+        </thead>
+        <tbody id="tableData">
+            @foreach (var item in ViewData["checkedDepartmentList"] as IEnumerable<CARS2019.Models.DepartmentCheck>)
+            {
+            <tr id="datarow" class="row m-0" style="font-size:smaller;">
+                @Html.Hidden("checkId", @item.id)
+                @Html.Hidden("reportID", @item.reportID)
+                @Html.Hidden("departmentID", @item.departmentID)
+                <td class="d-inline-block col-1">@item.departmentName</td>
+                <td class="d-inline-block col-1"><input type="text" name="operatorName" id="operatorName" value="@item.operatorName" class="form-control-sm col-3" data-itemid="operatorName"></td>
+                <td class="d-inline-block col-1"><input type="number" name="quantity" id="quantity" value="@item.quantity" class="form-control-sm col-3" data-itemid="quantity"></td>
+                <td class="d-inline-block col-1">
+                    <input type="date" name="completedDate" id="completedDate"
+                           value="@(item.completedDate == null ? "" : String.Format("{0:yyyy-MM-dd}", (DateTime.Parse(item.completedDate))))" class="form-control-sm col-3" data-itemid="completedDate">
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" id="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<script>
+    function viewQuantiy(qty) {
+        (qty === 0 ? "" : qty)
+    }
+    $(document).ready(function () {
+        var JobDetailsFromJSON = {};
+        JobDetailsFromJSON.url = "/Reports/JobDetails/?jobNumber=" + $("#job_ID").val();
+        JobDetailsFromJSON.type = "POST";
+        JobDetailsFromJSON.datatype = "json";
+        JobDetailsFromJSON.contentType = "application/json";
+        JobDetailsFromJSON.success = function (jobDetails) {
+            obj = $.parseJSON(jobDetails);
+            //console.table(obj);
+            $("#customerName").text(obj[0].cust_name);
+            $("#cust_ID").text(obj[0].cust_key);
+            $("#Title").text(obj[0].Title);
+            $("#CSRName").text(obj[0].csr_name);
+        };
+        JobDetailsFromJSON.error = function () {
+            alert("Error in Getting JobDetails!!");
+        };
+        $.ajax(JobDetailsFromJSON);
+
+        var ProblemsFromJSON = {};
+        ProblemsFromJSON.url = "/Reports/ProblemList/?deptID=" + $("#department_ID").val();
+        ProblemsFromJSON.type = "POST";
+        ProblemsFromJSON.datatype = "json";
+        ProblemsFromJSON.contentType = "application/json";
+        ProblemsFromJSON.success = function (problemList) {
+            obj = $.parseJSON(problemList);
+            $("#problem_ID").empty();
+            $.each(obj, function (key, value) {
+                $("#problem_ID").append($('<option></option>').val(value.ProblemID).html(value.ProblemDescription));
+            });
+            $("#problem_ID").prop("disabled", false);
+        };
+
+        ProblemsFromJSON.error = function () {
+            alert("Error in Getting problem_ID!!");
+        };
+        $.ajax(ProblemsFromJSON);
+
+
+
+        $("#department_ID").change(function () {
+            if ($("#department_ID").val() != "Select") {
+                var ProblemsFromJSON = {};
+                ProblemsFromJSON.url = "/Reports/ProblemList/?deptID=" + $("#department_ID").val();
+                ProblemsFromJSON.type = "POST";
+                ProblemsFromJSON.datatype = "json";
+                ProblemsFromJSON.contentType = "application/json";
+                ProblemsFromJSON.success = function (problemList) {
+                    obj = $.parseJSON(problemList);
+                    $("#problem_ID").empty();
+                    $.each(obj, function (key, value) {
+                        $("#problem_ID").append($('<option></option>').val(value.ProblemID).html(value.ProblemDescription));
+                    });
+                    $("#problem_ID").prop("disabled", false);
+                };
+
+                ProblemsFromJSON.error = function () {
+                    alert("Error in Getting problem_ID!!");
+                };
+                $.ajax(ProblemsFromJSON);
+            } else {
+
+            }
+        });
+    });
+
+
+    $("#job_ID").change(function () {
+        var JobDetailsFromJSON = {};
+        JobDetailsFromJSON.url = "/Reports/JobDetails/?jobNumber=" + $("#job_ID").val();
+        JobDetailsFromJSON.type = "POST";
+        JobDetailsFromJSON.datatype = "json";
+        JobDetailsFromJSON.contentType = "application/json";
+        JobDetailsFromJSON.success = function (jobDetails) {
+            obj = $.parseJSON(jobDetails);
+            //console.table(obj);
+            $("#customerName").text(obj[0].cust_name);
+            $("#cust_ID").text(obj[0].cust_key);
+            $("#Title").text(obj[0].Title);
+            $("#CSRName").text(obj[0].csr_name);
+        };
+        JobDetailsFromJSON.error = function () {
+            alert("Error in Getting JobDetails!!");
+        };
+        $.ajax(JobDetailsFromJSON);
+
+    });
+
+
+
+    $('#submit').click(function () {
+        var TableData;
+        TableData = storeTblValues()
+        TableData = JSON.stringify(TableData);
+        console.log(TableData);
+
+        $.ajax({
+            type: "POST",
+            url: "/Reports/StoreDepartmentValues/",
+            datatype: "json",
+            contentType: "application/json",
+            //data: "departmentJSON=" + TableData,
+            data: TableData,
+            success: function (msg) {
+                // return value stored in msg variable
+            }
+        });
+    });
+
+    function storeTblValues() {
+        var TableData = new Array();
+
+        $('#chextable tr').each(function (row, tr) {
+            TableData[row] = {
+                "id": $(tr).find('#checkId').val()
+                ,"reportID": $(tr).find('#reportID').val()
+                , "departmentID": $(tr).find('#departmentID').val()
+                , "operatorName": $(tr).find('#operatorName').val()
+                , "quantity": $(tr).find('#quantity').val()
+                , "completedDate": $(tr).find('#completedDate').val()
+            }
+        });
+        TableData.shift();  // first row will be empty - so remove
+        return TableData;
+    }
+
+
+</script>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

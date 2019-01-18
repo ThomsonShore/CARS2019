@@ -1,0 +1,143 @@
+﻿@model CARS2019.Models.UserProfile
+
+@{
+    ViewBag.Title = "UserProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>User Profile</h2>
+
+<div>
+    <hr />
+    @Html.ValidationSummary(true)
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Department)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Department)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DisplayName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DisplayName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Division)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Division)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmployeeId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmployeeId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmployeeNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmployeeNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Manager)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Manager)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StreetAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StreetAddress)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Groups)
+        </dt>
+
+        <dd>
+            <ol>
+                @foreach (string group in Model.Groups ?? Enumerable.Empty<string>())
+                {
+                    <li>@group</li>
+                }
+            </ol>
+        </dd>
+
+    </dl>
+    
+    <div>
+        @Html.ActionLink("Toggle Delete", "toggleDeletePermission")
+        <br />@((Session["canDeleteEntry"] ?? "False").ToString())
+    </div>
+    <div>
+        @Html.ActionLink("Toggle Edit", "toggleCanEditEntry")
+        <br />@((Session["canEditEntry"] ?? "False").ToString())
+    </div>
+    <div>
+        @Html.ActionLink("Toggle SeeEmployee (See responsible party)", "toggleCanSeeEmployee")
+        <br />@((Session["canSeeEmployee"] ??  "False").ToString() )
+    </div>
+    <div>
+        @Html.ActionLink("Toggle CorrectiveAction (Process Needs)", "toggleCanSeeCorrectiveAction")
+        <br />@((Session["canSeeCorrectiveAction"] ?? "False").ToString())
+    </div>
+
+
+                    @section Scripts {
+                        @Scripts.Render("~/bundles/jqueryval")
+                    }

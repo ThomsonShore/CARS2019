@@ -1,0 +1,272 @@
+﻿@model CARS2019.Models.Reports
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+<hr />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <dl class="dl-horizontal">
+            <dt>Customer Name:</dt>
+            <dd id="customerName" name="customerName"></dd>
+            <dt>Customer Id:</dt>
+            <dd id="cust_ID" name="cust_ID"></dd>
+            <dt>Title:</dt>
+            <dd id="Title" name="Title"></dd>
+            <dt>CSR:</dt>
+            <dd id="CSRName" name="CSRName"></dd>
+        </dl>
+
+    </div>
+
+    <div class="form-horizontal">
+
+
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.reporting_employee, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.reporting_employee, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.reporting_employee, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.job_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.job_ID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.job_ID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.customer_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.customer_ID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.customer_ID, "", new { @class = "text-danger" })
+
+            </div>
+
+        </div>*@
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.department_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.EditorFor(model => model.department_ID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.department_ID, "", new { @class = "text-danger" })*@
+
+                @Html.DropDownListFor(model => model.department_ID, new SelectList(ViewBag.data, "departmentName", "departmentName"), "Select Department")
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.problem_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.problem_ID, new SelectList(Enumerable.Empty<SelectListItem>()), "You must select a Deparment First")
+
+                @*@Html.EditorFor(model => model.problem_ID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.problem_ID, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.severity_id, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.severity_id, new List<SelectListItem>
+                    {
+                    new SelectListItem{ Text="Minor", Value = "Minor" },
+                    new SelectListItem{ Text="Major", Value = "Major" },
+                    new SelectListItem{ Text="Critical", Value = "Critical" }
+                    })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.rework_employee, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.rework_employee, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.rework_employee, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.calculated_cost, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.calculated_cost, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.calculated_cost, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.notes, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.notes, 6, 40, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.notes, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.corrective_action, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.corrective_action, 6, 40, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.corrective_action, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <table id="deptchex" cellpadding="5">
+
+                    <tr>
+                        <th class="control-label col-md-2"> Select Affected Departments</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        @{
+                            int cnt = 0;
+                            List<CARS2019.Models.CARSDepartmentList> departments = ViewBag.data;
+
+
+
+                            foreach (var department in departments)
+                            {
+                                if (cnt++ % 4 == 0)
+                                {
+                                @:  </tr> <tr>
+                                }
+                                @: <td>
+                                    @*<input type="checkbox" id="@department.departmentName" name="@department.departmentName" value=@department.id />
+                                        @department.departmentName @:*@
+
+                                    @Html.CheckBox(@department.departmentName, false, htmlAttributes: new { name = @department.departmentName, value = @department.id });
+                                    @department.departmentName
+                                @:</td>
+                            }
+                        @: </tr>
+                        }
+                    </table>
+                </div>
+        </div>
+
+
+        <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" id="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+
+
+    <script>
+    $(document).ready(function () {
+        var userFromCookie = "@HttpContext.Current.Request.Cookies["carsCookie"].Value";
+        //console.log(userFromCookie);
+        $("#reporting_employee").text(userFromCookie);
+        $("#reporting_employee").val(userFromCookie);
+        //console.log($("#reporting_employee").text());
+        $("#problem_ID").prop("disabled", true);
+        $("#department_ID").change(function () {
+            //console.log($("#department_ID").val());
+            $("#problem_ID").empty();
+            if ($("#department_ID").val() !== "") {
+
+                var ProblemsFromJSON = {};
+                ProblemsFromJSON.url = "/Reports/ProblemList/?deptID=" + $("#department_ID").val();
+                //console.log(ProblemsFromJSON.url);
+                ProblemsFromJSON.type = "POST";
+                ProblemsFromJSON.datatype = "json";
+                ProblemsFromJSON.contentType = "application/json";
+                ProblemsFromJSON.success = function (problemList) {
+                    obj = $.parseJSON(problemList);
+                    //console.log(obj);
+                    $("#problem_ID").empty();
+                    $.each(obj, function (key, value) {
+                        $("#problem_ID").append($('<option></option>').val(value.ProblemID).html(value.ProblemDescription));
+                    });
+                    $("#problem_ID").prop("disabled", false);
+                };
+
+                ProblemsFromJSON.error = function () {
+                    alert("Error in Getting problem_ID!!");
+                };
+                $.ajax(ProblemsFromJSON);
+            } else {
+                $("#problem_ID").empty();
+                $("#problem_ID").prop("disabled", true);
+            }
+        });
+    });
+
+    $("#job_ID").change(function () {
+        var JobDetailsFromJSON = {};
+        JobDetailsFromJSON.url = "/Reports/JobDetails/?jobNumber=" + $("#job_ID").val();
+        JobDetailsFromJSON.type = "POST";
+        JobDetailsFromJSON.datatype = "json";
+        JobDetailsFromJSON.contentType = "application/json";
+        JobDetailsFromJSON.success = function (jobDetails) {
+            obj = $.parseJSON(jobDetails);
+            //console.log(obj);
+            $("#cust_ID").text(obj[0].cust_key);
+            $("#customerName").text(obj[0].cust_name);
+            $("#Title").text(obj[0].Title);
+            $("#CSRName").text(obj[0].csr_name);
+        };
+        JobDetailsFromJSON.error = function () {
+            alert("Error in Getting JobDetails!!");
+        };
+        $.ajax(JobDetailsFromJSON);
+
+        $('#submit').click(function() {
+        var list = [];
+        $('#deptchex input:checked').each(function() {
+            list.push(this.value);
+        });
+        // contains all of the checked checkboxes
+        // do something with it with ajax
+        $.ajax({
+            url: '@Url.Action("StoreCheckedDepartments", "Reports")',
+            type: 'POST',
+            data: { Parameters: list},
+            success: function (result) {
+                //alert("success!");
+                console.log("Success! Passed checked departments to controller")
+            },
+            error: function (result) {
+                //alert("error!");
+                console.log("Error! Passing checked departments to controller")
+            }
+        });   //end ajax
+        });
+
+
+    });
+
+
+    </script>
+
+
+    @*<script> console.log(@Html.Raw(ViewBag.jsonProb));</script><*@
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CARSDeptProbLists.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="CARS_2019_DepartmentList">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="departmentName" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'TSProd.dbo.CARS_2019_Dept_ProblemLists' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="CARS_2019_Dept_ProblemLists">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="problemId" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="problemId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CARS_2019_ProblemID">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="description" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_CARS_2019_Dept_ProblemLists_CARS_2019_DepartmentList">
+    <End Role="CARS_2019_DepartmentList" Type="Self.CARS_2019_DepartmentList" Multiplicity="1" />
+    <End Role="CARS_2019_Dept_ProblemLists" Type="Self.CARS_2019_Dept_ProblemLists" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CARS_2019_DepartmentList">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="CARS_2019_Dept_ProblemLists">
+        <PropertyRef Name="id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CARS_2019_Dept_ProblemLists_CARS_2019_ProblemID">
+    <End Role="CARS_2019_ProblemID" Type="Self.CARS_2019_ProblemID" Multiplicity="1" />
+    <End Role="CARS_2019_Dept_ProblemLists" Type="Self.CARS_2019_Dept_ProblemLists" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CARS_2019_ProblemID">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="CARS_2019_Dept_ProblemLists">
+        <PropertyRef Name="problemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="CARSDeptProbListsStoreContainer">
+    <EntitySet Name="CARS_2019_DepartmentList" EntityType="Self.CARS_2019_DepartmentList" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CARS_2019_ProblemID" EntityType="Self.CARS_2019_ProblemID" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CARS_2019_Dept_ProblemLists" EntityType="Self.CARS_2019_Dept_ProblemLists" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [CARS_2019_Dept_ProblemLists].[id] AS [id], 
+    [CARS_2019_Dept_ProblemLists].[problemId] AS [problemId]
+    FROM [dbo].[CARS_2019_Dept_ProblemLists] AS [CARS_2019_Dept_ProblemLists]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_CARS_2019_Dept_ProblemLists_CARS_2019_DepartmentList" Association="Self.FK_CARS_2019_Dept_ProblemLists_CARS_2019_DepartmentList">
+      <End Role="CARS_2019_DepartmentList" EntitySet="CARS_2019_DepartmentList" />
+      <End Role="CARS_2019_Dept_ProblemLists" EntitySet="CARS_2019_Dept_ProblemLists" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CARS_2019_Dept_ProblemLists_CARS_2019_ProblemID" Association="Self.FK_CARS_2019_Dept_ProblemLists_CARS_2019_ProblemID">
+      <End Role="CARS_2019_ProblemID" EntitySet="CARS_2019_ProblemID" />
+      <End Role="CARS_2019_Dept_ProblemLists" EntitySet="CARS_2019_Dept_ProblemLists" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

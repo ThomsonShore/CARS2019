@@ -1,0 +1,37 @@
+﻿@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+        @*<div class="navbar-right">
+            @if (Session["adFullUserName"] != null)
+            {<font color="white">@Session["adFullUserName"].ToString()</font><br />}
+        </div>*@
+
+        <ul class="nav navbar-nav navbar-left">
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+        </ul>
+
+
+
+    }
+
+    {
+            @Html.AntiForgeryToken()
+            <ul class="nav navbar-nav navbar-right">
+
+                <li>
+                    @Html.ActionLink(System.Web.HttpContext.Current.User.Identity.Name, "UserProfile", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })
+                </li>
+            </ul>
+        }
+
+
+
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}

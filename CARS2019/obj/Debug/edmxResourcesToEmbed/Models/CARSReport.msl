@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ReportsStoreContainer" CdmEntityContainer="TSProdEntities">
+    <EntitySetMapping Name="Reports">
+      <EntityTypeMapping TypeName="Reports.Reports">
+        <MappingFragment StoreEntitySet="CARS_2019_Report">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="reporting_employee" ColumnName="reporting_employee" />
+          <ScalarProperty Name="job_ID" ColumnName="job_ID" />
+          <ScalarProperty Name="department_ID" ColumnName="department_ID" />
+          <ScalarProperty Name="problem_ID" ColumnName="problem_ID" />
+          <ScalarProperty Name="severity_id" ColumnName="severity_id" />
+          <ScalarProperty Name="rework_employee" ColumnName="rework_employee" />
+          <ScalarProperty Name="calculated_cost" ColumnName="calculated_cost" />
+          <ScalarProperty Name="notes" ColumnName="notes" />
+          <ScalarProperty Name="corrective_action" ColumnName="corrective_action" />
+          <ScalarProperty Name="created_Date" ColumnName="created_Date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

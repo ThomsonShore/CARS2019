@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "About CARS 2019";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+@if (Request.IsAuthenticated)
+{
+    <p>This is privledged info, only authenticated users can see!</p>
+    <div>
+        Welcome:&nbsp;
+        @if (Session["adFullUserName"] != null)
+        {
+            <b><font color="red">@Session["adFullUserName"].ToString()</font>&excl;</b>
+            <br />
+        }
+        <p>
+            Is Member of Groups:<br />
+            @ViewBag.Groups
+        </p>
+    </div>
+
+}
+else
+{
+    <p>This is public info.</p>
+
+}

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Reports.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="CARS_2019_Report">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="reporting_employee" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="job_ID" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="department_ID" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="problem_ID" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="severity_id" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="rework_employee" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="calculated_cost" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="notes" Type="nvarchar(max)" />
+    <Property Name="corrective_action" Type="nvarchar(max)" />
+    <Property Name="created_Date" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
+  </EntityType>
+  <EntityContainer Name="ReportsStoreContainer">
+    <EntitySet Name="CARS_2019_Report" EntityType="Self.CARS_2019_Report" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

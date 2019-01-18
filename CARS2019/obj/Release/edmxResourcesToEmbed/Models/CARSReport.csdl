@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Reports" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Reports">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="reporting_employee" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="job_ID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="department_ID" Type="String" Nullable="false" />
+    <Property Name="problem_ID" Type="String" Nullable="false" />
+    <Property Name="severity_id" Type="String" Nullable="false" />
+    <Property Name="rework_employee" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="calculated_cost" Type="Decimal" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="corrective_action" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="created_Date" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
+  </EntityType>
+  <EntityContainer Name="TSProdEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Reports" EntityType="Reports.Reports" />
+  </EntityContainer>
+</Schema>

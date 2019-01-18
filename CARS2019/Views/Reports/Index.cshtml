@@ -1,0 +1,356 @@
+﻿@model IEnumerable<CARS2019.Models.Reports>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+    @if (Session["canSeeEmployee"] != null && Session["canSeeCorrectiveAction"] != null)
+    {
+        if (Session["canSeeEmployee"].ToString() == "True" && Session["canSeeCorrectiveAction"].ToString() == "True")
+        {<input type="button" value="Export to Excel" onclick="location.href='@Url.Action("Export", "Reports")'" />}
+    }
+</p>
+<script id="js">
+    //$(function () {
+
+    //    var $table = $('table').tablesorter({
+    //        theme: 'ice',
+    //        widgets: ["zebra", "filter"],
+    //        widgetOptions: {
+    //            // filter_anyMatch replaced! Instead use the filter_external option
+    //            // Set to use a jQuery selector (or jQuery object) pointing to the
+    //            // external filter (column specific or any match)
+    //            filter_external: '.search',
+    //            // add a default type search to the first name column
+    //            filter_defaultFilter: { 1: '~{query}' },
+    //            // include column filters
+    //            filter_columnFilters: true,
+    //            filter_placeholder: { search: 'Search...' },
+    //            filter_saveFilters: true,
+    //            filter_reset: '.reset'
+    //        }
+    //    });
+
+    //    // make demo search buttons work
+    //    $('button[data-column]').on('click', function () {
+    //        var $this = $(this),
+    //            totalColumns = $table[0].config.columns,
+    //            col = $this.data('column'), // zero-based index or "all"
+    //            filter = [];
+
+    //        // text to add to filter
+    //        filter[col === 'all' ? totalColumns : col] = $this.text();
+    //        $table.trigger('search', [filter]);
+    //        return false;
+    //    });
+
+    //});
+    $(function () {
+
+        // **********************************
+        //  Description of ALL pager options
+        // **********************************
+        var pagerOptions = {
+
+            // target the pager markup - see the HTML block below
+            container: $(".pager"),
+
+            // use this url format "http:/mydatabase.com?page={page}&size={size}&{sortList:col}"
+            ajaxUrl: null,
+
+            // modify the url after all processing has been applied
+            customAjaxUrl: function (table, url) { return url; },
+
+            // ajax error callback from $.tablesorter.showError function
+            // ajaxError: function( config, xhr, settings, exception ) { return exception; };
+            // returning false will abort the error message
+            ajaxError: null,
+
+            // add more ajax settings here
+            // see http://api.jquery.com/jQuery.ajax/#jQuery-ajax-settings
+            ajaxObject: { dataType: 'json' },
+
+            // process ajax so that the data object is returned along with the total number of rows
+            ajaxProcessing: null,
+
+            // Set this option to false if your table data is preloaded into the table, but you are still using ajax
+            processAjaxOnInit: true,
+
+            // output string - default is '{page}/{totalPages}'
+            // possible variables: {size}, {page}, {totalPages}, {filteredPages}, {startRow}, {endRow}, {filteredRows} and {totalRows}
+            // also {page:input} & {startRow:input} will add a modifiable input in place of the value
+            // In v2.27.7, this can be set as a function
+            // output: function(table, pager) { return 'page ' + pager.startRow + ' - ' + pager.endRow; }
+            output: '{startRow:input} – {endRow} / {totalRows} rows',
+
+            // apply disabled classname (cssDisabled option) to the pager arrows when the rows
+            // are at either extreme is visible; default is true
+            updateArrows: true,
+
+            // starting page of the pager (zero based index)
+            page: 0,
+
+            // Number of visible rows - default is 10
+            size: 10,
+
+            // Save pager page & size if the storage script is loaded (requires $.tablesorter.storage in jquery.tablesorter.widgets.js)
+            savePages: true,
+
+            // Saves tablesorter paging to custom key if defined.
+            // Key parameter name used by the $.tablesorter.storage function.
+            // Useful if you have multiple tables defined
+            storageKey: 'tablesorter-pager',
+
+            // Reset pager to this page after filtering; set to desired page number (zero-based index),
+            // or false to not change page at filter start
+            pageReset: 0,
+
+            // if true, the table will remain the same height no matter how many records are displayed. The space is made up by an empty
+            // table row set to a height to compensate; default is false
+            fixedHeight: false,
+
+            // remove rows from the table to speed up the sort of large tables.
+            // setting this to false, only hides the non-visible rows; needed if you plan to add/remove rows with the pager enabled.
+            removeRows: false,
+
+            // If true, child rows will be counted towards the pager set size
+            countChildRows: false,
+
+            // css class names of pager arrows
+            cssNext: '.next', // next page arrow
+            cssPrev: '.prev', // previous page arrow
+            cssFirst: '.first', // go to first page arrow
+            cssLast: '.last', // go to last page arrow
+            cssGoto: '.gotoPage', // select dropdown to allow choosing a page
+
+            cssPageDisplay: '.pagedisplay', // location of where the "output" is displayed
+            cssPageSize: '.pagesize', // page size selector - select dropdown that sets the "size" option
+
+            // class added to arrows when at the extremes (i.e. prev/first arrows are "disabled" when on the first page)
+            cssDisabled: 'disabled', // Note there is no period "." in front of this class name
+            cssErrorRow: 'tablesorter-errorRow' // ajax error information row
+
+        };
+
+        $("table")
+
+            // Initialize tablesorter
+            // ***********************
+            .tablesorter({
+                theme: 'ice',
+                sortList: [[@ViewBag.dateSortColumn,1]],  // setting the default sort column  to created_date descending ******** WILL NEED TO UPDATE IF NUMBER OF COLUMNS CHANGE******************
+                widthFixed: true,
+                widgets: ['zebra', 'filter'],
+                widgetOptions: {
+                // filter_anyMatch replaced! Instead use the filter_external option
+                // Set to use a jQuery selector (or jQuery object) pointing to the
+                // external filter (column specific or any match)
+                filter_external: '.search',
+                // add a default type search to the first name column
+                filter_defaultFilter: { 1: '~{query}' },
+                // include column filters
+                filter_columnFilters: true,
+                filter_placeholder: { search: 'Search...' },
+                filter_saveFilters: true,
+                filter_reset: '.reset'
+            }
+            })
+
+            // bind to pager events
+            // *********************
+            .bind('pagerChange pagerComplete pagerInitialized pageMoved', function (e, c) {
+                var msg = '"</span> event triggered, ' + (e.type === 'pagerChange' ? 'going to' : 'now on') +
+                    ' page <span class="typ">' + (c.page + 1) + '/' + c.totalPages + '</span>';
+                $('#display')
+                    .append('<li><span class="str">"' + e.type + msg + '</li>')
+                    .find('li:first').remove();
+            })
+
+            // initialize the pager plugin
+            // ****************************
+            .tablesorterPager(pagerOptions);
+
+            // make demo search buttons work
+            $('button[data-column]').on('click', function () {
+                var $this = $(this),
+                    totalColumns = $table[0].config.columns,
+                    col = $this.data('column'), // zero-based index or "all"
+                    filter = [];
+
+                // text to add to filter
+                filter[col === 'all' ? totalColumns : col] = $this.text();
+                $table.trigger('search', [filter]);
+                return false;
+            });
+
+
+        // Disable / Enable
+        // **************
+        $('.toggle').click(function () {
+            var mode = /Disable/.test($(this).text());
+            $('table').trigger((mode ? 'disable' : 'enable') + 'Pager');
+            $(this).text((mode ? 'Enable' : 'Disable') + 'Pager');
+            return false;
+        });
+        $('table').bind('pagerChange', function () {
+            // pager automatically enables when table is sorted.
+            $('.toggle').text('Disable Pager');
+        });
+
+        // clear storage (page & size)
+        $('.clear-pager-data').click(function () {
+            // clears user set page & size from local storage, so on page
+            // reload the page & size resets to the original settings
+            $.tablesorter.storage($('table'), 'tablesorter-pager', '');
+        });
+
+        // go to page 1 showing 10 rows
+        $('.goto').click(function () {
+            // triggering "pageAndSize" without parameters will reset the
+            // pager to page 1 and the original set size (10 by default)
+            // $('table').trigger('pageAndSize')
+            $('table').trigger('pageAndSize', [1, 10]);
+        });
+
+    });
+
+</script>
+<div class="form-group"><input class="search" type="search" data-column="all"> (Match any column)<br></div>
+<button type="button" class="reset">Reset Search</button>
+<!-- pager -->
+<div id="pager" class="pager">
+    <img src="~/Content/images/first.png" class="first" alt="First" />
+    <img src="~/Content/images/prev.png" class="prev" alt="Prev" />
+    <!-- the "pagedisplay" can be any element, including an input -->
+    <span class="pagedisplay" data-pager-output-filtered="{startRow:input} &ndash; {endRow} / {filteredRows} of {totalRows} total rows"></span>
+    <img src="~/Content/images/next.png" class="next" alt="Next" />
+    <img src="~/Content/images/last.png" class="last" alt="Last" />
+
+    <select class="pagesize">
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+        <option value="40">40</option>
+        <option value="all">All Rows</option>
+    </select>
+    <select class="gotoPage" title="Select page number"></select>
+</div>
+<table id="table" class="tablesorter">
+
+    <thead>
+        <tr>
+            <th>Reported By</th>
+            <th>Job</th>
+            @*<th>@Html.DisplayNameFor(model => model.customer_ID)</th>*@
+            <th>@Html.DisplayNameFor(model => model.department_ID)</th>
+            <th>@Html.DisplayNameFor(model => model.problem_ID)</th>
+            <th>@Html.DisplayNameFor(model => model.severity_id)</th>
+            @if (Session["canSeeEmployee"] != null)
+            {
+                if (Session["canSeeEmployee"].ToString() == "True")
+                {
+                    <th>Employee</th>}
+            }
+
+
+            <th>Cost</th>
+            <th class="{sorter: false}">@Html.DisplayNameFor(model => model.notes)</th>
+
+
+            @if (Session["canSeeCorrectiveAction"] != null)
+            {
+                if (Session["canSeeCorrectiveAction"].ToString() == "True")
+                {
+                    <th class="{sorter: false}">@Html.DisplayNameFor(model => model.corrective_action)</th>
+                }
+            }
+
+            <th>@Html.DisplayNameFor(model => model.created_Date)</th>
+            <th class="{sorter: false}">Actions Available</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.reporting_employee)</td>
+            <td>@Html.DisplayFor(modelItem => item.job_ID)</td>
+            @*<td>@Html.DisplayFor(modelItem => item.customer_ID)</td>*@
+            <td>@Html.DisplayFor(modelItem => item.department_ID)</td>
+            <td>@Html.DisplayFor(modelItem => item.problem_ID)</td>
+            <td>@Html.DisplayFor(modelItem => item.severity_id)</td>
+
+            @if (Session["canSeeEmployee"] != null)
+            {
+                if (Session["canSeeEmployee"].ToString() == "True")
+                {
+                    <td>@Html.DisplayFor(modelItem => item.rework_employee)</td>
+                }
+            }
+
+            <td>@Html.DisplayFor(modelItem => item.calculated_cost)</td>
+            <td>@Html.DisplayFor(modelItem => item.notes)</td>
+
+
+            @if (Session["canSeeCorrectiveAction"] != null)
+            {
+                if (Session["canSeeCorrectiveAction"].ToString() == "True")
+                {
+                    <td>@Html.DisplayFor(modelItem => item.corrective_action)</td>
+                }
+
+            }
+
+            <td>@Html.DisplayFor(modelItem => item.created_Date)</td>
+
+
+            <td>
+                @if (Session["canEditEntry"] != null)
+                {
+                    if (Session["canEditEntry"].ToString() == "True")
+                    {
+                        @Html.ActionLink("Edit", "Edit", new { id = item.id }) @Html.Raw(" | ")
+                    }
+                }
+
+                @if (Session["canDeleteEntry"] != null)
+                {
+                    if (Session["canDeleteEntry"].ToString() == "True")
+                    {
+                        @Html.ActionLink("Delete", "Delete", new { id = item.id }) @Html.Raw(" | ")
+                    }
+                }
+                @Html.ActionLink("Details", "Details", new { id = item.id })
+            </td>
+
+        </tr>
+        }
+    </tbody>
+</table>
+<!-- pager -->
+<div id="pager" class="pager">
+    <img src="~/Content/images/first.png" class="first" alt="First" />
+    <img src="~/Content/images/prev.png" class="prev" alt="Prev" />
+    <!-- the "pagedisplay" can be any element, including an input -->
+    <span class="pagedisplay" data-pager-output-filtered="{startRow:input} &ndash; {endRow} / {filteredRows} of {totalRows} total rows"></span>
+    <img src="~/Content/images/next.png" class="next" alt="Next" />
+    <img src="~/Content/images/last.png" class="last" alt="Last" />
+
+    <select class="pagesize">
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+        <option value="40">40</option>
+        <option value="all">All Rows</option>
+    </select>
+    <select class="gotoPage" title="Select page number"></select>
+</div>
+
+
+
+

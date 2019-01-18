@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CARSProblemListModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="CARS_2019_DepartmentList">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="departmentName" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="departmentName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="CARS_2019_Dept_ProblemLists" Relationship="CARSProblemListModel.CARS_2019_DepartmentListCARS_2019_Dept_ProblemLists" FromRole="CARS_2019_DepartmentList" ToRole="CARS_2019_Dept_ProblemLists" />
+  </EntityType>
+  <EntityType Name="CARS_2019_Dept_ProblemLists">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="problemId" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="problemId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="CARS_2019_DepartmentList" Relationship="CARSProblemListModel.CARS_2019_DepartmentListCARS_2019_Dept_ProblemLists" FromRole="CARS_2019_Dept_ProblemLists" ToRole="CARS_2019_DepartmentList" />
+    <NavigationProperty Name="CARS_2019_ProblemID" Relationship="CARSProblemListModel.CARS_2019_Dept_ProblemListsCARS_2019_ProblemID" FromRole="CARS_2019_Dept_ProblemLists" ToRole="CARS_2019_ProblemID" />
+  </EntityType>
+  <EntityType Name="CARS_2019_ProblemID">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="description" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="CARS_2019_Dept_ProblemLists" Relationship="CARSProblemListModel.CARS_2019_Dept_ProblemListsCARS_2019_ProblemID" FromRole="CARS_2019_ProblemID" ToRole="CARS_2019_Dept_ProblemLists" />
+  </EntityType>
+  <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="CARS_2019_DepartmentList" EntityType="Self.CARS_2019_DepartmentList" />
+    <EntitySet Name="CARS_2019_Dept_ProblemLists" EntityType="Self.CARS_2019_Dept_ProblemLists" />
+    <EntitySet Name="CARS_2019_ProblemID" EntityType="Self.CARS_2019_ProblemID" />
+    <AssociationSet Name="CARS_2019_DepartmentListCARS_2019_Dept_ProblemLists" Association="CARSProblemListModel.CARS_2019_DepartmentListCARS_2019_Dept_ProblemLists">
+      <End Role="CARS_2019_DepartmentList" EntitySet="CARS_2019_DepartmentList" />
+      <End Role="CARS_2019_Dept_ProblemLists" EntitySet="CARS_2019_Dept_ProblemLists" />
+    </AssociationSet>
+    <AssociationSet Name="CARS_2019_Dept_ProblemListsCARS_2019_ProblemID" Association="CARSProblemListModel.CARS_2019_Dept_ProblemListsCARS_2019_ProblemID">
+      <End Role="CARS_2019_Dept_ProblemLists" EntitySet="CARS_2019_Dept_ProblemLists" />
+      <End Role="CARS_2019_ProblemID" EntitySet="CARS_2019_ProblemID" />
+    </AssociationSet>
+  </EntityContainer>
+  <Association Name="CARS_2019_DepartmentListCARS_2019_Dept_ProblemLists">
+    <End Type="CARSProblemListModel.CARS_2019_DepartmentList" Role="CARS_2019_DepartmentList" Multiplicity="1" />
+    <End Type="CARSProblemListModel.CARS_2019_Dept_ProblemLists" Role="CARS_2019_Dept_ProblemLists" Multiplicity="*" />
+  </Association>
+  <Association Name="CARS_2019_Dept_ProblemListsCARS_2019_ProblemID">
+    <End Type="CARSProblemListModel.CARS_2019_Dept_ProblemLists" Role="CARS_2019_Dept_ProblemLists" Multiplicity="1" />
+    <End Type="CARSProblemListModel.CARS_2019_ProblemID" Role="CARS_2019_ProblemID" Multiplicity="*" />
+  </Association>
+</Schema>
