@@ -23,6 +23,7 @@ namespace CARS2019.Models
             smtp.Host = "smtp.gmail.com";
 
             mail.To.Add(recipientEmail);
+            mail.CC.Add("jbrennan@tshore.com");
             mail.Subject = "New CARS Entry Added by " + senderName +" for JobID: " + jobID;
             mail.IsBodyHtml = true;
 

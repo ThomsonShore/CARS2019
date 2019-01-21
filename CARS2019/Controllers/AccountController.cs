@@ -68,10 +68,21 @@ namespace CARS2019.Controllers
                     }
                     UserPermissions userPermissions = new UserPermissions();
 
-                    Session["canDeleteEntry"] = userPermissions.canDeleteEntry = false;
-                    Session["canSeeCorrectiveAction"] = userPermissions.canSeeCorrectiveAction = false;
-                    Session["canSeeEmployee"] = userPermissions.canSeeEmployee = false;
-                    Session["canEditEntry"] = userPermissions.canEditEntry = false;
+                if (CheckUserInGroup("APP_CARS_Admin" , model.UserName))
+                    {
+                        Session["canDeleteEntry"] = userPermissions.canDeleteEntry = true;
+                        Session["canSeeCorrectiveAction"] = userPermissions.canSeeCorrectiveAction = true;
+                        Session["canSeeEmployee"] = userPermissions.canSeeEmployee = true;
+                        Session["canEditEntry"] = userPermissions.canEditEntry = true;
+                    }
+                    else
+                    {
+                        Session["canDeleteEntry"] = userPermissions.canDeleteEntry = false;
+                        Session["canSeeCorrectiveAction"] = userPermissions.canSeeCorrectiveAction = false;
+                        Session["canSeeEmployee"] = userPermissions.canSeeEmployee = false;
+                        Session["canEditEntry"] = userPermissions.canEditEntry = true;
+                    }
+
                     return RedirectToLocal(returnUrl);
                 }
                 catch
@@ -146,37 +157,37 @@ namespace CARS2019.Controllers
         }
 
         // Remove this from production, can be used to elevate privlege on an authorized account.****************************************************************
-        public ActionResult toggleDeletePermission()
-        {
-            bool toggle = Convert.ToBoolean((Session["canDeleteEntry"] ?? "False"));
-            toggle = !toggle;
-            Session["canDeleteEntry"] = toggle.ToString();
-            return RedirectToAction("UserProfile", "Account");
-        }
+        //public ActionResult toggleDeletePermission()
+        //{
+        //    bool toggle = Convert.ToBoolean((Session["canDeleteEntry"] ?? "False"));
+        //    toggle = !toggle;
+        //    Session["canDeleteEntry"] = toggle.ToString();
+        //    return RedirectToAction("UserProfile", "Account");
+        //}
 
-        public ActionResult toggleCanSeeCorrectiveAction()
-        {
-            bool toggle = Convert.ToBoolean((Session["canSeeCorrectiveAction"] ?? "False"));
-            toggle = !toggle;
-            Session["canSeeCorrectiveAction"] = toggle.ToString();
-            return RedirectToAction("UserProfile", "Account");
-        }
+        //public ActionResult toggleCanSeeCorrectiveAction()
+        //{
+        //    bool toggle = Convert.ToBoolean((Session["canSeeCorrectiveAction"] ?? "False"));
+        //    toggle = !toggle;
+        //    Session["canSeeCorrectiveAction"] = toggle.ToString();
+        //    return RedirectToAction("UserProfile", "Account");
+        //}
 
-        public ActionResult toggleCanEditEntry()
-        {
-            bool toggle = Convert.ToBoolean((Session["canEditEntry"] ?? "False"));
-            toggle = !toggle;
-            Session["canEditEntry"] = toggle.ToString();
-            return RedirectToAction("UserProfile", "Account");
-        }
+        //public ActionResult toggleCanEditEntry()
+        //{
+        //    bool toggle = Convert.ToBoolean((Session["canEditEntry"] ?? "False"));
+        //    toggle = !toggle;
+        //    Session["canEditEntry"] = toggle.ToString();
+        //    return RedirectToAction("UserProfile", "Account");
+        //}
 
-        public ActionResult toggleCanSeeEmployee()
-        {
-            bool toggle = Convert.ToBoolean((Session["canSeeEmployee"] ?? "False"));
-            toggle = !toggle;
-            Session["canSeeEmployee"] = toggle.ToString();
-            return RedirectToAction("UserProfile", "Account");
-        }
+        //public ActionResult toggleCanSeeEmployee()
+        //{
+        //    bool toggle = Convert.ToBoolean((Session["canSeeEmployee"] ?? "False"));
+        //    toggle = !toggle;
+        //    Session["canSeeEmployee"] = toggle.ToString();
+        //    return RedirectToAction("UserProfile", "Account");
+        //}
 
         #region Helpers
         private ActionResult RedirectToLocal(string returnUrl)
@@ -195,38 +206,38 @@ namespace CARS2019.Controllers
 
 
 
-        //private bool CheckUserInGroup(string group)
-        //{
-        //    string serverName = ConfigurationManager.AppSettings["ADServer"];
-        //    string userName = ConfigurationManager.AppSettings["ADUserName"];
-        //    string password = ConfigurationManager.AppSettings["ADPassword"];
-        //    bool result = false;
-        //    SecureString securePwd = null;
-        //    if (password != null)
-        //    {
-        //        securePwd = new SecureString();
-        //        foreach (char chr in password.ToCharArray())
-        //        {
-        //            securePwd.AppendChar(chr);
-        //        }
-        //    }
-        //    try
-        //    {
-        //        ActiveDirectory adConnectGroup = new ActiveDirectory(serverName, userName, securePwd);
-        //        SearchResultEntry groupResult = adConnectGroup.GetEntryByCommonName(group);
-        //        Group grp = new Group(adConnectGroup, groupResult);
-        //        SecurityPrincipal userPrincipal = grp.Members.Find(sp => sp.SAMAccountName.ToLower() == User.Identity.Name.ToLower());
-        //        if (userPrincipal != null)
-        //        {
-        //            result = true;
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        result = false;
-        //    }
-        //    return result;
-        //}
+        private bool CheckUserInGroup(string group, string username)
+        {
+            string serverName = ConfigurationManager.AppSettings["ADServer"];
+            string userName = ConfigurationManager.AppSettings["ADUserName"];
+            string password = ConfigurationManager.AppSettings["ADPassword"];
+            bool result = false;
+            SecureString securePwd = null;
+            if (password != null)
+            {
+                securePwd = new SecureString();
+                foreach (char chr in password.ToCharArray())
+                {
+                    securePwd.AppendChar(chr);
+                }
+            }
+            try
+            {
+                ActiveDirectory adConnectGroup = new ActiveDirectory(serverName, userName, securePwd);
+                SearchResultEntry groupResult = adConnectGroup.GetEntryByCommonName(group);
+                Group grp = new Group(adConnectGroup, groupResult);
+                SecurityPrincipal userPrincipal = grp.Members.Find(sp => sp.SAMAccountName.ToLower() == username.ToLower());
+                if (userPrincipal != null)
+                {
+                    result = true;
+                }
+            }
+            catch
+            {
+                result = false;
+            }
+            return result;
+        }
         #endregion
     }
 }

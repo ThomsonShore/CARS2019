@@ -16,10 +16,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/10/2013 16:29:20</publishTime>
     </File>
     <File Include="bin/CARS2019.dll">
-      <publishTime>01/21/2019 09:40:18</publishTime>
+      <publishTime>01/21/2019 12:48:57</publishTime>
     </File>
     <File Include="bin/CARS2019.pdb">
-      <publishTime>01/21/2019 09:40:18</publishTime>
+      <publishTime>01/21/2019 12:48:57</publishTime>
     </File>
     <File Include="bin/Dapper.dll">
       <publishTime>05/16/2018 18:40:30</publishTime>
@@ -385,7 +385,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/03/2019 08:33:00</publishTime>
     </File>
     <File Include="Content/Site.css">
-      <publishTime>01/04/2019 11:42:35</publishTime>
+      <publishTime>01/21/2019 12:45:21</publishTime>
     </File>
     <File Include="Content/theme.blue.css">
       <publishTime>01/03/2019 08:29:02</publishTime>
@@ -574,7 +574,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/03/2019 09:42:32</publishTime>
     </File>
     <File Include="Views/Account/UserProfile.cshtml">
-      <publishTime>01/08/2019 15:21:31</publishTime>
+      <publishTime>01/21/2019 10:45:47</publishTime>
     </File>
     <File Include="Views/Home/About.cshtml">
       <publishTime>12/31/2018 11:04:11</publishTime>
@@ -586,7 +586,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/07/2019 12:55:06</publishTime>
     </File>
     <File Include="Views/Reports/Create.cshtml">
-      <publishTime>01/17/2019 07:54:31</publishTime>
+      <publishTime>01/21/2019 12:41:20</publishTime>
     </File>
     <File Include="Views/Reports/Delete.cshtml">
       <publishTime>01/07/2019 13:08:31</publishTime>
@@ -595,7 +595,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/16/2019 13:38:52</publishTime>
     </File>
     <File Include="Views/Reports/Edit.cshtml">
-      <publishTime>01/17/2019 15:53:28</publishTime>
+      <publishTime>01/21/2019 12:41:20</publishTime>
     </File>
     <File Include="Views/Reports/Index.cshtml">
       <publishTime>01/10/2019 13:39:18</publishTime>

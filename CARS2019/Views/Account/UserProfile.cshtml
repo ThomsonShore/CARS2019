@@ -120,7 +120,7 @@
 
     </dl>
     
-    <div>
+    @*<div>
         @Html.ActionLink("Toggle Delete", "toggleDeletePermission")
         <br />@((Session["canDeleteEntry"] ?? "False").ToString())
     </div>
@@ -135,7 +135,7 @@
     <div>
         @Html.ActionLink("Toggle CorrectiveAction (Process Needs)", "toggleCanSeeCorrectiveAction")
         <br />@((Session["canSeeCorrectiveAction"] ?? "False").ToString())
-    </div>
+    </div>*@
 
 
                     @section Scripts {

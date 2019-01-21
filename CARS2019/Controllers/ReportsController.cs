@@ -137,7 +137,7 @@ namespace CARS2019.Controllers
                 //var targetURL = "http://localhost:53080/Reports/Details/" + reports.id; // for dev testing
                 var targetURL = "https://cars.tshore.com/Reports/Details/" + reports.id; // for live server, should move to web.config for realzies ***********************
                 var emailBody = "Issue submitted for job number: " + reports.job_ID + "<br />";
-                MailSendHelper.testSendingEmail("jbrennan@tshore.com", "jbrennan@tshore.com", emailBody, targetURL, reports.job_ID);
+                MailSendHelper.testSendingEmail("donotreply@tshore.com", "robinf@tshore.com", emailBody, targetURL, reports.job_ID);
 
                 if (TempData["tempChecked"] != null)
                 {
