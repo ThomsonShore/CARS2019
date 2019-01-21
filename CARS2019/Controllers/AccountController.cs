@@ -101,6 +101,11 @@ namespace CARS2019.Controllers
             string serverName = ConfigurationManager.AppSettings["ADServer"];
             string userName = ConfigurationManager.AppSettings["ADUserName"];
             string password = ConfigurationManager.AppSettings["ADPassword"];
+
+            if (System.Web.HttpContext.Current.User.Identity.Name != "jbrennan")
+            {
+                return RedirectToAction("Index", "Home");
+            }
             SecureString securePwd = null;
             if (password != null)
             {

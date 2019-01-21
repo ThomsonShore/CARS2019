@@ -16,10 +16,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/10/2013 16:29:20</publishTime>
     </File>
     <File Include="bin/CARS2019.dll">
-      <publishTime>01/18/2019 08:14:11</publishTime>
+      <publishTime>01/21/2019 09:40:18</publishTime>
     </File>
     <File Include="bin/CARS2019.pdb">
-      <publishTime>01/18/2019 08:14:11</publishTime>
+      <publishTime>01/21/2019 09:40:18</publishTime>
     </File>
     <File Include="bin/Dapper.dll">
       <publishTime>05/16/2018 18:40:30</publishTime>
