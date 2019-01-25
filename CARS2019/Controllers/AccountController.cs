@@ -89,6 +89,8 @@ namespace CARS2019.Controllers
                 {
                     // If we got this far, something failed, redisplay form
                     ModelState.AddModelError("", "The user name or password provided is incorrect.");
+                    var emailBody = "CARS Login Failure for user: " + model.UserName;
+                    MailSendHelper.SendingErrorEmail("donotreply@tshore.com", "jbrennan@tshore.com", emailBody);
                 }
             }
 
@@ -152,6 +154,8 @@ namespace CARS2019.Controllers
             {
                 // unable to connect AD
                 ModelState.AddModelError("", "Unable to connect AD!");
+                var emailBody = "CARS AD Failure for user: " + System.Web.HttpContext.Current.User.Identity.Name;
+                MailSendHelper.SendingErrorEmail("donotreply@tshore.com", "jbrennan@tshore.com", emailBody);
             }
             return View(usrProfile);
         }

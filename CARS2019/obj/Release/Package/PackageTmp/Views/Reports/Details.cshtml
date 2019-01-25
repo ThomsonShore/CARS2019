@@ -1,5 +1,4 @@
 ﻿@model CARS2019.Models.Reports
-@*@model IEnumerable<CARS2019.Models.DepartmentCheck>*@
 
 @{
     ViewBag.Title = "Details";
@@ -23,6 +22,8 @@
 </div>
 
 <div>
+    <h4>Reports</h4>
+    <hr />
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.reporting_employee)
@@ -39,14 +40,6 @@
         <dd>
             @Html.DisplayFor(model => model.job_ID)
         </dd>
-
-        @*<dt>
-                @Html.DisplayNameFor(model => model.customer_ID)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.customer_ID)
-            </dd>*@
 
         <dt>
             @Html.DisplayNameFor(model => model.department_ID)
@@ -95,6 +88,14 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.expectedQuantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.expectedQuantity)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.notes)
         </dt>
 
@@ -127,6 +128,7 @@
 
     </dl>
 
+
     <table id="chextable" class="table table-responsive-sm table-sm" style="height:auto !important;">
 
         <thead>
@@ -149,11 +151,13 @@
             }
         </tbody>
     </table>
+
+
 </div>
 
 <script>
     $(document).ready(function () {
-        //console.log("job_ID: " + @Model.job_ID);
+
         var JobDetailsFromJSON = {};
         JobDetailsFromJSON.url = "/Reports/JobDetails/?jobNumber=" + @Model.job_ID;
         JobDetailsFromJSON.type = "POST";
@@ -161,7 +165,6 @@
         JobDetailsFromJSON.contentType = "application/json";
         JobDetailsFromJSON.success = function (jobDetails) {
             obj = $.parseJSON(jobDetails);
-            //console.table(obj);
             $("#customerName").text(obj[0].cust_name);
             $("#cust_ID").text(obj[0].cust_key);
             $("#Title").text(obj[0].Title);
@@ -185,3 +188,4 @@
     }
     @Html.ActionLink("Back to List", "Index")
 </p>
+

@@ -250,6 +250,7 @@
             <th>@Html.DisplayNameFor(model => model.department_ID)</th>
             <th>@Html.DisplayNameFor(model => model.problem_ID)</th>
             <th>@Html.DisplayNameFor(model => model.severity_id)</th>
+
             @if (Session["canSeeEmployee"] != null)
             {
                 if (Session["canSeeEmployee"].ToString() == "True")
@@ -257,7 +258,7 @@
                     <th>Employee</th>}
             }
 
-
+            <th>@Html.DisplayNameFor(model => model.expectedQuantity)</th>
             <th>Cost</th>
             <th class="{sorter: false}">@Html.DisplayNameFor(model => model.notes)</th>
 
@@ -292,7 +293,7 @@
                     <td>@Html.DisplayFor(modelItem => item.rework_employee)</td>
                 }
             }
-
+            <td>@Html.DisplayFor(modelItem => item.expectedQuantity)</td>
             <td>@Html.DisplayFor(modelItem => item.calculated_cost)</td>
             <td>@Html.DisplayFor(modelItem => item.notes)</td>
 

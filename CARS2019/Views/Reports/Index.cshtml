@@ -250,6 +250,7 @@
             <th>@Html.DisplayNameFor(model => model.department_ID)</th>
             <th>@Html.DisplayNameFor(model => model.problem_ID)</th>
             <th>@Html.DisplayNameFor(model => model.severity_id)</th>
+
             @if (Session["canSeeEmployee"] != null)
             {
                 if (Session["canSeeEmployee"].ToString() == "True")
@@ -257,7 +258,10 @@
                     <th>Employee</th>}
             }
 
-
+            <th>@Html.DisplayNameFor(model => model.expectedQuantity)</th>
+            <th>@Html.DisplayNameFor(model => model.component)</th>
+            <th>@Html.DisplayNameFor(model => model.throwOutInitials)</th>
+            <th>@Html.DisplayNameFor(model => model.throwOutDate)</th>
             <th>Cost</th>
             <th class="{sorter: false}">@Html.DisplayNameFor(model => model.notes)</th>
 
@@ -290,6 +294,19 @@
                 if (Session["canSeeEmployee"].ToString() == "True")
                 {
                     <td>@Html.DisplayFor(modelItem => item.rework_employee)</td>
+                }
+            }
+            <td>@Html.DisplayFor(modelItem => item.expectedQuantity)</td>
+            <td>@Html.DisplayFor(modelItem => item.component)</td>
+            <td>@Html.DisplayFor(modelItem => item.throwOutInitials)</td>
+            @{
+                if (item.throwOutDate == DateTime.MinValue)
+                {
+                    <td> </td>
+                }
+                else
+                {
+                    <td>@Html.DisplayFor(modelItem => item.throwOutDate)</td>
                 }
             }
 

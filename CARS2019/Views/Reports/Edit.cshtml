@@ -1,5 +1,5 @@
 ﻿@model CARS2019.Models.Reports
-@*@model IEnumerable<CARS2019.Models.DepartmentCheck>*@
+
 @{
     ViewBag.Title = "Edit";
 }
@@ -46,21 +46,12 @@
         </div>
     </div>
 
-    @*<div class="form-group">
-            @Html.LabelFor(model => model.customer_ID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.customer_ID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.customer_ID, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
 
     <div class="form-group">
         @Html.LabelFor(model => model.department_ID, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @*@Html.EditorFor(model => model.department_ID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.department_ID, "", new { @class = "text-danger" })*@
-
             @Html.DropDownListFor(model => model.department_ID, new SelectList(ViewBag.data, "departmentName", "departmentName"))
+            @Html.ValidationMessageFor(model => model.department_ID, "", new { @class = "text-danger" })
         </div>
     </div>
 
@@ -68,9 +59,7 @@
         @Html.LabelFor(model => model.problem_ID, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.DropDownListFor(model => model.problem_ID, new SelectList(Enumerable.Empty<SelectListItem>()), "You must select a Deparment First")
-
-            @*@Html.EditorFor(model => model.problem_ID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.problem_ID, "", new { @class = "text-danger" })*@
+            @Html.ValidationMessageFor(model => model.problem_ID, "", new { @class = "text-danger" })
         </div>
     </div>
 
@@ -112,6 +101,36 @@
         <div class="col-md-10">
             @Html.EditorFor(model => model.calculated_cost, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.calculated_cost, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.expectedQuantity, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.expectedQuantity, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.expectedQuantity, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.component, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.component, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.component, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.throwOutInitials, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.throwOutInitials, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.throwOutDate, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input type="date" name="throwOutDate" id="throwOutDate" value="@(Model.throwOutDate == DateTime.MinValue ? "" : String.Format("{0:yyyy-MM-dd}", Model.throwOutDate))" class="form-control-sm col-3" data-itemid="throwOutDate">
         </div>
     </div>
 
@@ -165,18 +184,18 @@
         <tbody id="tableData">
             @foreach (var item in ViewData["checkedDepartmentList"] as IEnumerable<CARS2019.Models.DepartmentCheck>)
             {
-            <tr id="datarow" class="row m-0" style="font-size:smaller;">
-                @Html.Hidden("checkId", @item.id)
-                @Html.Hidden("reportID", @item.reportID)
-                @Html.Hidden("departmentID", @item.departmentID)
-                <td class="d-inline-block col-1">@item.departmentName</td>
-                <td class="d-inline-block col-1"><input type="text" name="operatorName" id="operatorName" value="@item.operatorName" class="form-control-sm col-3" data-itemid="operatorName"></td>
-                <td class="d-inline-block col-1"><input type="number" name="quantity" id="quantity" value="@item.quantity" class="form-control-sm col-3" data-itemid="quantity"></td>
-                <td class="d-inline-block col-1">
-                    <input type="date" name="completedDate" id="completedDate"
-                           value="@(item.completedDate == null ? "" : String.Format("{0:yyyy-MM-dd}", (DateTime.Parse(item.completedDate))))" class="form-control-sm col-3" data-itemid="completedDate">
-                </td>
-            </tr>
+                <tr id="datarow" class="row m-0" style="font-size:smaller;">
+                    @Html.Hidden("checkId", @item.id)
+                    @Html.Hidden("reportID", @item.reportID)
+                    @Html.Hidden("departmentID", @item.departmentID)
+                    <td class="d-inline-block col-1">@item.departmentName</td>
+                    <td class="d-inline-block col-1"><input type="text" name="operatorName" id="operatorName" value="@item.operatorName" class="form-control-sm col-3" data-itemid="operatorName"></td>
+                    <td class="d-inline-block col-1"><input type="number" name="quantity" id="quantity" value="@item.quantity" class="form-control-sm col-3" data-itemid="quantity"></td>
+                    <td class="d-inline-block col-1">
+                        <input type="date" name="completedDate" id="completedDate"
+                               value="@(item.completedDate == null ? "" : String.Format("{0:yyyy-MM-dd}", (DateTime.Parse(item.completedDate))))" class="form-control-sm col-3" data-itemid="completedDate">
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
@@ -188,7 +207,7 @@
         </div>
     </div>
 </div>
-}
+    }
 
 
 
@@ -315,7 +334,7 @@
         $('#chextable tr').each(function (row, tr) {
             TableData[row] = {
                 "id": $(tr).find('#checkId').val()
-                ,"reportID": $(tr).find('#reportID').val()
+                , "reportID": $(tr).find('#reportID').val()
                 , "departmentID": $(tr).find('#departmentID').val()
                 , "operatorName": $(tr).find('#operatorName').val()
                 , "quantity": $(tr).find('#quantity').val()

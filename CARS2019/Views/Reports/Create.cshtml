@@ -6,6 +6,9 @@
 
 <h2>Create</h2>
 <hr />
+<script src="~/Scripts/jquery.validate-vsdoc.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
 
 @using (Html.BeginForm())
 {
@@ -47,26 +50,11 @@
             </div>
         </div>
 
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.customer_ID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.customer_ID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.customer_ID, "", new { @class = "text-danger" })
-
-            </div>
-
-        </div>*@
-
-
-
         <div class="form-group">
             @Html.LabelFor(model => model.department_ID, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @*@Html.EditorFor(model => model.department_ID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.department_ID, "", new { @class = "text-danger" })*@
-
                 @Html.DropDownListFor(model => model.department_ID, new SelectList(ViewBag.data, "departmentName", "departmentName"), "Select Department")
-
+                @Html.ValidationMessageFor(model => model.department_ID, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -74,9 +62,7 @@
             @Html.LabelFor(model => model.problem_ID, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.problem_ID, new SelectList(Enumerable.Empty<SelectListItem>()), "You must select a Deparment First")
-
-                @*@Html.EditorFor(model => model.problem_ID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.problem_ID, "", new { @class = "text-danger" })*@
+                @Html.ValidationMessageFor(model => model.problem_ID, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -89,6 +75,7 @@
                     new SelectListItem{ Text="Major", Value = "Major" },
                     new SelectListItem{ Text="Critical", Value = "Critical" }
                     })
+                @Html.ValidationMessageFor(model => model.severity_id, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -105,6 +92,36 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.calculated_cost, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.calculated_cost, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.expectedQuantity, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.expectedQuantity, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.expectedQuantity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.component, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.component, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.component, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.throwOutInitials, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.throwOutInitials, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.throwOutDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.throwOutDate, new { htmlAttributes = new { @type = "date", @class = "form-control-sm col-3" } })
             </div>
         </div>
 
@@ -148,8 +165,13 @@
                                 @:  </tr> <tr>
                                 }
                                 @: <td>
-                                    @*<input type="checkbox" id="@department.departmentName" name="@department.departmentName" value=@department.id />
-                                        @department.departmentName @:*@
+
+
+
+
+
+
+
 
                                     @Html.CheckBox(@department.departmentName, false, htmlAttributes: new { name = @department.departmentName, value = @department.id });
                                     @department.departmentName
@@ -159,26 +181,45 @@
                         }
                     </table>
                 </div>
-        </div>
+            </div>
 
 
-        <div class="form-group">
+            <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" id="submit" value="Create" class="btn btn-default" />
                 </div>
             </div>
         </div>
-}
+        }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
-
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
 
 
-    <script>
+
+
+<script>
+    $('body').on('keydown', 'input, select, textarea', function (e) {
+        var self = $(this)
+            , form = self.parents('form:eq(0)')
+            , focusable
+            , next
+            ;
+        if (e.keyCode == 13) {
+            focusable = form.find('input,a,select,button').filter(':visible');  // add textarea to enter/tab over textareas, but then you have to alt-enter in the box...
+            next = focusable.eq(focusable.index(this) + 1);
+            if (next.length) {
+                next.focus();
+            } else {
+                form.submit();
+            }
+            return false;
+        }
+    });
+
     $(document).ready(function () {
+        $("#throwOutDate").rules("remove", "required")
         var userFromCookie = "@HttpContext.Current.Request.Cookies["carsCookie"].Value";
         //console.log(userFromCookie);
         $("#reporting_employee").text(userFromCookie);
@@ -236,7 +277,8 @@
         };
         $.ajax(JobDetailsFromJSON);
 
-        $('#submit').click(function() {
+        $('#submit').click(function () {
+        
         var list = [];
         $('#deptchex input:checked').each(function() {
             list.push(this.value);
@@ -262,11 +304,8 @@
     });
 
 
-    </script>
+</script>
 
+   
+@*<script> console.log(@Html.Raw(ViewBag.jsonProb));</script><*@
 
-    @*<script> console.log(@Html.Raw(ViewBag.jsonProb));</script><*@
-
-    @section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
-    }

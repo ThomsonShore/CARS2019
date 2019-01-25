@@ -149,12 +149,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.2\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
@@ -176,44 +170,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\CARSDepartmentList.cs">
-      <DependentUpon>DepartmentList.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CARSReport.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CARSReport.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CARSReport.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CARSReport.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CARSReport.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CARSReport.edmx</DependentUpon>
-    </Compile>
+    <Compile Include="Models\CARS2019.cs" />
     <Compile Include="Models\CARSReportClass.cs" />
-    <Compile Include="Models\DepartmentList.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DepartmentList.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DepartmentList.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DepartmentList.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DepartmentList.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DepartmentList.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Models\MailSendHelper.cs" />
-    <Compile Include="Models\Reports.cs">
-      <DependentUpon>CARSReport.tt</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -264,40 +223,6 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Models\CARSReport.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>CARSReport.edmx</DependentUpon>
-      <LastGenOutput>CARSReport.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\CARSReport.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>CARSReport.edmx</DependentUpon>
-      <LastGenOutput>CARSReport.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\DepartmentList.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DepartmentList.edmx</DependentUpon>
-      <LastGenOutput>DepartmentList.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\DepartmentList.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DepartmentList.edmx</DependentUpon>
-      <LastGenOutput>DepartmentList.cs</LastGenOutput>
-    </Content>
-    <EntityDeploy Include="Models\CARSReport.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>CARSReport.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\CARSReport.edmx.diagram">
-      <DependentUpon>CARSReport.edmx</DependentUpon>
-    </Content>
-    <EntityDeploy Include="Models\DepartmentList.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DepartmentList.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\DepartmentList.edmx.diagram">
-      <DependentUpon>DepartmentList.edmx</DependentUpon>
-    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
@@ -364,7 +289,6 @@
     <Content Include="Views\Account\UserProfile.cshtml" />
     <Content Include="Views\Reports\Create.cshtml" />
     <Content Include="Views\Reports\Delete.cshtml" />
-    <Content Include="Views\Reports\Details.cshtml" />
     <Content Include="Views\Reports\Edit.cshtml" />
     <Content Include="Views\Reports\Index.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
@@ -376,6 +300,7 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Reports\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -389,16 +314,6 @@
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Documents\GitHub\Models\Models.csproj">
-      <Project>{b43ad3a2-4191-49f3-ab9f-4a9ce8d98b0a}</Project>
-      <Name>Models</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Documents\GitHub\Repositories\Repositories.csproj">
-      <Project>{1fe5f1f9-a963-49eb-8850-d8aac5374447}</Project>
-      <Name>Repositories</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />

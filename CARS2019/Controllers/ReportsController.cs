@@ -4,13 +4,12 @@ using System.Data;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CARS2019.Models;
-using Repositories.Repositories;
+
 using Newtonsoft.Json;
 using OfficeOpenXml;
 using OfficeOpenXml.Table;
@@ -20,9 +19,9 @@ namespace CARS2019.Controllers
 {
     public class ReportsController : Controller
     {
-        private TSProdEntities db = new TSProdEntities();
+
         private TSProd dbTS = new TSProd();
-        private TSProdEntities1 ddl = new TSProdEntities1();
+
         private const string XlsxContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
 
@@ -33,7 +32,7 @@ namespace CARS2019.Controllers
         [SessionExpire]
         public ActionResult Index()
         {
-            int count = 9; // crufty hack to set the default sort column number (Date Created), since we optionally hide / show columns, update this as needed.
+            int count = 13; // crufty hack to set the default sort column number (Date Created), since we optionally hide / show columns, update this as needed.
 
 
             if (Session["canSeeCorrectiveAction"] != null)
@@ -54,7 +53,8 @@ namespace CARS2019.Controllers
 
             ViewBag.dateSortColumn = count.ToString();
             //ViewData["CARSReport"] = dbTS;
-            return View(db.Reports.ToList());
+            List<Reports> reportView = CARS2019.Models.TSProd.GetAllReports();
+            return View(reportView);
         }
 
 
@@ -66,7 +66,7 @@ namespace CARS2019.Controllers
             using (var package = new ExcelPackage())
             {
                 var worksheet = package.Workbook.Worksheets.Add("CARS");                
-                worksheet.Cells["A1"].LoadFromCollection(db.Reports.ToList(), true, OfficeOpenXml.Table.TableStyles.Medium1);
+                worksheet.Cells["A1"].LoadFromCollection(CARS2019.Models.TSProd.GetAllReports().ToList(), true, OfficeOpenXml.Table.TableStyles.Medium1);
                 var colCnt = worksheet.Dimension.End.Column;
                 worksheet.Column(colCnt).Style.Numberformat.Format = "mm-dd-yyyy h:mm";
                 worksheet.Cells.AutoFitColumns();
@@ -79,18 +79,22 @@ namespace CARS2019.Controllers
         // GET: Reports/Details/5
         [Authorize]
         [SessionExpire]
-        public ActionResult Details(int? id)
+        public ActionResult Details(int id)
         {
-            if (id == null)
+            if (id <= 0)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Reports reports = db.Reports.Find(id);
+
+
+            var reports = new Reports();
+            reports = CARS2019.Models.TSProd.ReportGivenID(id);
+
             if (reports == null)
             {
                 return HttpNotFound();
             }
-            var checkedDepartmentList = TSProd.GetChecksGivenReportID(reports.id);
+            var checkedDepartmentList = TSProd.GetChecksGivenReportID(id);
             if (checkedDepartmentList != null)
             {
                 ViewData["checkedDepartmentList"] = checkedDepartmentList;
@@ -104,8 +108,8 @@ namespace CARS2019.Controllers
         [SessionExpire]
         public ActionResult Create()
         {
-            var items = ddl.CARSDepartmentLists.ToList();
-
+            var items = CARS2019.Models.TSProd.CARSDepartmentList().ToList();
+            //CARS2019.Models.TSProd.Reports
 
             if (items != null)
             {
@@ -122,32 +126,54 @@ namespace CARS2019.Controllers
         [SessionExpire]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,reporting_employee,job_ID,department_ID,problem_ID,severity_id,rework_employee,calculated_cost,notes,corrective_action,created_Date")] Reports reports)
+        public ActionResult Create([Bind(Exclude = "id, component, throwOutInitials, throwOutDate, notes, corrective_action, created_Date")] Reports reports)
         {
             if (ModelState.IsValid)
             {
+
                 if (reports.calculated_cost == null)
                 {
                     reports.calculated_cost = 0;
                 }
-                db.Reports.Add(reports);
-                db.SaveChanges();
-                db.Entry(reports).GetDatabaseValues();
 
-                //var targetURL = "http://localhost:53080/Reports/Details/" + reports.id; // for dev testing
-                var targetURL = "https://cars.tshore.com/Reports/Details/" + reports.id; // for live server, should move to web.config for realzies ***********************
-                var emailBody = "Issue submitted for job number: " + reports.job_ID + "<br />";
-                MailSendHelper.testSendingEmail("donotreply@tshore.com", "robinf@tshore.com", emailBody, targetURL, reports.job_ID);
+                int insertResults = TSProd.InsertCARSReport(
+                    reports.job_ID
+                    , reports.reporting_employee
+                    , reports.department_ID
+                    , reports.rework_employee
+                    , reports.expectedQuantity
+                    , reports.component
+                    , reports.problem_ID
+                    , reports.severity_id
+                    , (reports.calculated_cost ?? 0)
+                    , reports.throwOutInitials
+                    , reports.throwOutDate
+                    , reports.notes
+                    , reports.corrective_action
+                    );
 
-                if (TempData["tempChecked"] != null)
+                if (insertResults > 0) // Successfully inserted report
                 {
-                    foreach (var dept in (IEnumerable<String>)TempData["tempChecked"])
+                    //db.Reports.Add(reports);
+                    //db.SaveChanges();
+                    //db.Entry(reports).GetDatabaseValues();
+
+                    var targetURL = "https://cars.tshore.com/Reports/Details/" + insertResults;
+                    var emailBody = "Issue submitted for job number: " + reports.job_ID + "<br />";
+                    MailSendHelper.testSendingEmail("donotreply@tshore.com", "robinf@tshore.com", emailBody, targetURL, reports.job_ID);
+
+                    if (TempData["tempChecked"] != null)
                     {
-                        TSProd.InsertDeparmentCheck(reports.id, Int32.Parse(dept.ToString()));
+                        foreach (var dept in (IEnumerable<String>)TempData["tempChecked"])
+                        {
+                            TSProd.InsertDeparmentCheck(insertResults, Int32.Parse(dept.ToString()));
+                        }
                     }
+
+                    return RedirectToAction("Index");
                 }
 
-                return RedirectToAction("Index");
+
             }
 
             return View(reports);
@@ -156,9 +182,9 @@ namespace CARS2019.Controllers
         // GET: Reports/Edit/5
         [Authorize]
         [SessionExpire]
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int id)
         {
-            if (id == null)
+            if (id <= 0)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -171,19 +197,21 @@ namespace CARS2019.Controllers
                 }
             }
 
-            Reports reports = db.Reports.Find(id);
+            //Reports reports = db.Reports.Find(id);
+            var reports = new Reports();
+            reports = CARS2019.Models.TSProd.ReportGivenID(id);
             if (reports == null)
             {
                 return HttpNotFound();
             }
 
-            var items = ddl.CARSDepartmentLists.ToList();
+            var items = CARS2019.Models.TSProd.CARSDepartmentList().ToList();
             if (items != null)
             {
                 ViewBag.data = items;
             }
 
-            var checkedDepartmentList = TSProd.GetChecksGivenReportID(reports.id);
+            var checkedDepartmentList = TSProd.GetChecksGivenReportID(id);
             if (checkedDepartmentList != null)
             {
                 ViewData["checkedDepartmentList"] = checkedDepartmentList;
@@ -199,7 +227,7 @@ namespace CARS2019.Controllers
         [SessionExpire]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,reporting_employee,job_ID,department_ID,problem_ID,severity_id,rework_employee,calculated_cost,notes,corrective_action,created_Date")] Reports reports)
+        public ActionResult Edit([Bind(Include = "id,reporting_employee,job_ID,department_ID,component,problem_ID,severity_id,rework_employee,expectedQuantity,calculated_cost,throwOutInitials,throwOutDate,notes,corrective_action,created_Date")] Reports reports)
         {
             if (ModelState.IsValid)
             {
@@ -211,9 +239,34 @@ namespace CARS2019.Controllers
                     }
                 }
 
-                db.Entry(reports).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                int insertResults = TSProd.UpdateCARSReport(
+                     reports.id
+                    , reports.job_ID
+                    , reports.reporting_employee
+                    , reports.department_ID
+                    , reports.rework_employee
+                    , reports.expectedQuantity
+                    , reports.component
+                    , reports.problem_ID
+                    , reports.severity_id
+                    , (reports.calculated_cost ?? 0)
+                    , reports.throwOutInitials
+                    , reports.throwOutDate
+                    , reports.notes
+                    , reports.corrective_action
+                    );
+
+                if (insertResults == 0) // Successfully inserted report
+                {
+
+                    return RedirectToAction("Index");
+                }
+
+                //db.Entry(reports).State = EntityState.Modified;
+                //db.SaveChanges();
+
+
+                
             }
             return View(reports);
         }
@@ -221,9 +274,9 @@ namespace CARS2019.Controllers
         // GET: Reports/Delete/5
         [Authorize]
         [SessionExpire]
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int id)
         {
-            if (id == null)
+            if (id <= 0)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -236,11 +289,19 @@ namespace CARS2019.Controllers
                 }
             }
 
-            Reports reports = db.Reports.Find(id);
+            var reports = new Reports();
+            reports = CARS2019.Models.TSProd.ReportGivenID(id);
+
             if (reports == null)
             {
                 return HttpNotFound();
             }
+            var checkedDepartmentList = TSProd.GetChecksGivenReportID(id);
+            if (checkedDepartmentList != null)
+            {
+                ViewData["checkedDepartmentList"] = checkedDepartmentList;
+            }
+
             return View(reports);
         }
 
@@ -259,10 +320,21 @@ namespace CARS2019.Controllers
                 }
             }
 
-            Reports reports = db.Reports.Find(id);
-            db.Reports.Remove(reports);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            int deleteResults = TSProd.DeleteReport(id);
+
+            if (deleteResults == 0) // Successfully inserted report
+            {
+
+                return RedirectToAction("Index");
+            }
+
+            var checkedDepartmentList = TSProd.GetChecksGivenReportID(id);
+            if (checkedDepartmentList != null)
+            {
+                ViewData["checkedDepartmentList"] = checkedDepartmentList;
+            }
+
+            return RedirectToAction("Index"); // Should go to error page *************************************************
         }
 
 
@@ -357,13 +429,13 @@ namespace CARS2019.Controllers
         }
 
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
     }
 }

@@ -53,8 +53,6 @@ C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\roslyn\VBCSCompiler.exe.con
 C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\Antlr3.Runtime.dll
 C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\Dapper.dll
 C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\DnDns.dll
-C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\EntityFramework.dll
-C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\EntityFramework.SqlServer.dll
 C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\EPPlus.dll
 C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\Galactic.ActiveDirectory.dll
 C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\Galactic.Configuration.dll
@@ -67,9 +65,7 @@ C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\Microsoft.AspNet.Identity.E
 C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\Microsoft.AspNet.TelemetryCorrelation.dll
 C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\Microsoft.Web.Infrastructure.dll
-C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\Models.dll
 C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\Newtonsoft.Json.dll
-C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\Repositories.dll
 C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\System.Diagnostics.DiagnosticSource.dll
 C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\System.Web.Helpers.dll
 C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\System.Web.Mvc.dll
@@ -79,9 +75,6 @@ C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\System.Web.WebPages.Deploym
 C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\System.Web.WebPages.dll
 C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\System.Web.WebPages.Razor.dll
 C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\WebGrease.dll
-C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\Models.pdb
-C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\Repositories.pdb
-C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\Repositories.dll.config
 C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\Dapper.xml
 C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\EPPlus.xml
 C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\Galactic.ActiveDirectory.xml
@@ -103,8 +96,6 @@ C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\System.Web.WebPages.Deploym
 C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\System.Web.WebPages.Razor.xml
 C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\System.Web.Optimization.xml
 C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\Antlr3.Runtime.pdb
-C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\EntityFramework.xml
-C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\EntityFramework.SqlServer.xml
 C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\Microsoft.AspNet.Identity.Core.xml
 C:\Users\jbrennan\source\repos\CARS2019\CARS2019\bin\Microsoft.AspNet.Identity.EntityFramework.xml
 C:\Users\jbrennan\source\repos\CARS2019\CARS2019\obj\Release\CARS2019.csprojAssemblyReference.cache
