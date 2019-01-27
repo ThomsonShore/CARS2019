@@ -21,7 +21,7 @@
 
 </div>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { name = "frm", id = "frm" }))
 {
     @Html.AntiForgeryToken()
 
@@ -171,6 +171,8 @@
         </div>
     </div>
 
+    @Html.Partial("_DepartmentChex", ViewData["checkedDepartmentList"])
+
     <table id="chextable" class="table table-responsive-sm table-sm" style="height:auto !important;">
 
         <thead>
@@ -310,10 +312,31 @@
 
 
     $('#submit').click(function () {
+        var list = [];
+        $('#deptchex input:checked').each(function() {
+            list.push(this.value);
+        });
+        // contains all of the checked checkboxes
+        // do something with it with ajax
+        $.ajax({
+            url: '@Url.Action("StoreCheckedDepartments", "Reports")',
+            type: 'POST',
+            data: { Parameters: list},
+            success: function (result) {
+                //alert("success!");
+                console.log("Success! Passed checked departments to controller")
+            },
+            error: function (result) {
+                //alert("error!");
+                console.log("Error! Passing checked departments to controller")
+            }
+        });   //end ajax
+
+
         var TableData;
         TableData = storeTblValues()
         TableData = JSON.stringify(TableData);
-        console.log(TableData);
+        //console.log(TableData);
 
         $.ajax({
             type: "POST",
@@ -345,7 +368,18 @@
         return TableData;
     }
 
-
+    $(function () {
+        $('#deptchex input:checked').change(function () {
+            $.ajax({
+                url: '/Reports/ToggleCheckedDepartment/?reportID=' + $('#reportID').val() + '&departmentID=' + $(this).attr("value"),
+                cache: false,
+                method: 'GET',
+                //success: function (data) { location.reload(); },
+                success: function (data) { document.getElementById("frm").submit(); },
+                error: function () { alert('error removing department'); }
+            });
+        });
+    });
 </script>
 
 

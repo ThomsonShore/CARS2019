@@ -312,7 +312,9 @@ namespace CARS2019.Models
                 MailSendHelper.SendingErrorEmail("donotreply@tshore.com", "jbrennan@tshore.com", emailBody);
             }
         }
-                       
+
+       
+
         public static void UpdateDeparmentCheck(
             int id
             , string operatorName = null
@@ -347,6 +349,12 @@ namespace CARS2019.Models
                 var emailBody = "CARSReportClass Error Excuting: " + sql + " UpdateDeparmentCheck <br />" + ex.ToString();
                 MailSendHelper.SendingErrorEmail("donotreply@tshore.com", "jbrennan@tshore.com", emailBody);
             }
+        }
+
+        public static void DeleteCheckGivenId(int reportid, int departmentID)
+        {
+            repository.Query<Reports>(@"exec tsprod.dbo." + SPDebug + " @TranType='DeleteCheckGivenId', @reportid=" + reportid + ", @departmentID=" + departmentID).SingleOrDefault();
+
         }
 
     }

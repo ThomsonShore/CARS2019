@@ -126,7 +126,7 @@ namespace CARS2019.Controllers
         [SessionExpire]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Exclude = "id, component, throwOutInitials, throwOutDate, notes, corrective_action, created_Date")] Reports reports)
+        public ActionResult Create([Bind(Include = "id,reporting_employee,job_ID,department_ID,component,problem_ID,severity_id,rework_employee,expectedQuantity,calculated_cost,throwOutInitials,throwOutDate,notes,corrective_action,created_Date")] Reports reports)
         {
             if (ModelState.IsValid)
             {
@@ -160,7 +160,7 @@ namespace CARS2019.Controllers
 
                     var targetURL = "https://cars.tshore.com/Reports/Details/" + insertResults;
                     var emailBody = "Issue submitted for job number: " + reports.job_ID + "<br />";
-                    MailSendHelper.testSendingEmail("donotreply@tshore.com", "robinf@tshore.com", emailBody, targetURL, reports.job_ID);
+                    //MailSendHelper.testSendingEmail("donotreply@tshore.com", "robinf@tshore.com", emailBody, targetURL, reports.job_ID);
 
                     if (TempData["tempChecked"] != null)
                     {
@@ -258,7 +258,13 @@ namespace CARS2019.Controllers
 
                 if (insertResults == 0) // Successfully inserted report
                 {
-
+                    if (TempData["tempChecked"] != null)
+                    {
+                        foreach (var dept in (IEnumerable<String>)TempData["tempChecked"])
+                        {
+                            TSProd.InsertDeparmentCheck(reports.id, Int32.Parse(dept.ToString()));
+                        }
+                    }
                     return RedirectToAction("Index");
                 }
 
@@ -266,7 +272,7 @@ namespace CARS2019.Controllers
                 //db.SaveChanges();
 
 
-                
+
             }
             return View(reports);
         }
@@ -400,7 +406,11 @@ namespace CARS2019.Controllers
             }   
         }
 
-        
+        public void ToggleCheckedDepartment(int reportID, int departmentID)
+        {
+            TSProd.DeleteCheckGivenId(reportID, departmentID);
+        }
+
         public void StoreDepartmentValues(DepartmentCheck[] departmentJSON)
         {
             if (departmentJSON != null)
@@ -417,8 +427,8 @@ namespace CARS2019.Controllers
                 {
                     var id = row.id;
                     var operatorName = row.operatorName;
-                    var quantity = row.quantity;
-                    var completedDate = row.completedDate;
+                    var quantity = row.quantity ?? "0";
+                    var completedDate = row.completedDate ?? DateTime.Now.ToString();
                     if (id > 0 && operatorName != null)
                     {
                         TSProd.UpdateDeparmentCheck(id, operatorName, Int32.Parse(quantity), DateTime.Parse(completedDate));
