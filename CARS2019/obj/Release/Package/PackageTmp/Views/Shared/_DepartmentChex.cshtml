@@ -1,0 +1,63 @@
+﻿
+<div class="form-group">
+    <div class="col-md-10">
+        <table id="deptchex" cellpadding="5">
+            <tr>
+                <th class="control-label col-md-2"> Select Affected Departments</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                @{
+                    int cnt = 0;
+                    List<CARS2019.Models.CARSDepartmentList> departments = ViewBag.data;
+                    foreach (var department in departments)
+                    {
+                        if (cnt++ % 4 == 0)
+                        {
+                        @:  </tr> <tr>
+                        }
+                        @: <td>
+                            @Html.CheckBox(@department.departmentName, false, htmlAttributes: new { name = @department.departmentName, value = @department.id });
+                            @department.departmentName
+                        @:</td>
+                    }
+                @: </tr>
+                }
+            </table>
+
+        </div>
+    </div>
+
+<script>
+    $(document).ready(function () {
+        @foreach (var item in ViewData["checkedDepartmentList"] as IEnumerable<CARS2019.Models.DepartmentCheck>)
+        {
+            //$("[id='content Module']").whatever();
+            <text>$("[name='@item.departmentName']").attr('checked', true);</text>
+        }
+    });
+
+    $('#testButton').click(function () {
+        var list = [];
+        $('#deptchex input:checked').each(function() {
+            list.push(this.value);
+        });
+        // contains all of the checked checkboxes
+        // do something with it with ajax
+        $.ajax({
+            url: '@Url.Action("StoreCheckedDepartments", "Reports")',
+            type: 'POST',
+            data: { Parameters: list},
+            success: function (result) {
+                //alert("success!");
+                console.log("Success! Passed checked departments to controller")
+            },
+            error: function (result) {
+                //alert("error!");
+                console.log("Error! Passing checked departments to controller")
+            }
+        });   //end ajax
+});
+
+</script>

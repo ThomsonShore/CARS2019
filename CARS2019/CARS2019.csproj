@@ -220,6 +220,7 @@
     <Content Include="Content\theme.default.min.css" />
     <Content Include="Content\theme.grey.css" />
     <Content Include="Content\theme.ice.css" />
+    <Content Include="Content\widget.grouping.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -261,7 +262,11 @@
     <Content Include="Scripts\tablesorter\jquery.tablesorter.js" />
     <Content Include="Scripts\tablesorter\jquery.tablesorter.pager.min.js" />
     <Content Include="Scripts\tablesorter\jquery.tablesorter.widgets.js" />
+    <Content Include="Scripts\tablesorter\parser-date-weekday.min.js" />
+    <Content Include="Scripts\tablesorter\parser-input-select.min.js" />
+    <Content Include="Scripts\tablesorter\widget-columns.js" />
     <Content Include="Scripts\tablesorter\widget-filter.js" />
+    <Content Include="Scripts\tablesorter\widget-grouping.min.js" />
     <Content Include="Scripts\tablesorter\widget-storage.js" />
     <Content Include="Scripts\tablesorter\widget-uitheme.js" />
     <Content Include="Scripts\umd\popper-utils.js" />

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<CARS2019.Models.Reports>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "CARS Index";
 }
 
 
@@ -259,6 +259,9 @@
             }
 
             <th>@Html.DisplayNameFor(model => model.expectedQuantity)</th>
+            <th>@Html.DisplayNameFor(model => model.component)</th>
+            <th>@Html.DisplayNameFor(model => model.throwOutInitials)</th>
+            <th>@Html.DisplayNameFor(model => model.throwOutDate)</th>
             <th>Cost</th>
             <th class="{sorter: false}">@Html.DisplayNameFor(model => model.notes)</th>
 
@@ -294,6 +297,19 @@
                 }
             }
             <td>@Html.DisplayFor(modelItem => item.expectedQuantity)</td>
+            <td>@Html.DisplayFor(modelItem => item.component)</td>
+            <td>@Html.DisplayFor(modelItem => item.throwOutInitials)</td>
+            @{
+                if (item.throwOutDate == DateTime.MinValue)
+                {
+                    <td> </td>
+                }
+                else
+                {
+                    <td>@Html.DisplayFor(modelItem => item.throwOutDate)</td>
+                }
+            }
+
             <td>@Html.DisplayFor(modelItem => item.calculated_cost)</td>
             <td>@Html.DisplayFor(modelItem => item.notes)</td>
 

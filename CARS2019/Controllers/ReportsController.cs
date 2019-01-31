@@ -52,6 +52,7 @@ namespace CARS2019.Controllers
             }
 
             ViewBag.dateSortColumn = count.ToString();
+            ViewBag.weekSortColumn = (count + 1).ToString();
             //ViewData["CARSReport"] = dbTS;
             List<Reports> reportView = CARS2019.Models.TSProd.GetAllReports();
             return View(reportView);
@@ -158,17 +159,22 @@ namespace CARS2019.Controllers
                     //db.SaveChanges();
                     //db.Entry(reports).GetDatabaseValues();
 
-                    var targetURL = "https://cars.tshore.com/Reports/Details/" + insertResults;
-                    var emailBody = "Issue submitted for job number: " + reports.job_ID + "<br />";
-                    //MailSendHelper.testSendingEmail("donotreply@tshore.com", "robinf@tshore.com", emailBody, targetURL, reports.job_ID);
+                    string departmentEmailList = "robinf@tshore.com";
 
                     if (TempData["tempChecked"] != null)
                     {
                         foreach (var dept in (IEnumerable<String>)TempData["tempChecked"])
                         {
                             TSProd.InsertDeparmentCheck(insertResults, Int32.Parse(dept.ToString()));
+                            string departmentEmail = TSProd.GetDepartmentEmail(Int32.Parse(dept));
+                            departmentEmailList += ";" + departmentEmail;
                         }
                     }
+
+                    var targetURL = "https://cars.tshore.com/Reports/Details/" + insertResults;
+                    var emailBody = "Issue submitted for job number: " + reports.job_ID + "<br />";
+                    MailSendHelper.SendingDepartmentEmail(reports.reporting_employee, departmentEmailList, emailBody, targetURL, reports.job_ID);
+
 
                     return RedirectToAction("Index");
                 }

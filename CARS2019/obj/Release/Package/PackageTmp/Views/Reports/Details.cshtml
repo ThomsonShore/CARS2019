@@ -96,6 +96,37 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.component)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.component)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.throwOutInitials)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.throwOutInitials)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.throwOutDate)
+        </dt>
+        @{
+            if (Model.throwOutDate != DateTime.MinValue)
+            {
+                <dd>
+                    @Html.DisplayFor(model => model.throwOutDate)
+                </dd>
+            }
+            else
+            {
+                <dd></dd>
+            }
+        }
+
+        <dt>
             @Html.DisplayNameFor(model => model.notes)
         </dt>
 

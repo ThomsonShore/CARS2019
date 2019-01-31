@@ -16,6 +16,7 @@ namespace CARS2019.Models
     {
 
         public static string SPDebug = ConfigurationManager.AppSettings["SPDebug"];
+        
         public static SqlConnection repository
         {
             get
@@ -291,6 +292,20 @@ namespace CARS2019.Models
             return CARSdepartmentChex;
         }
 
+
+        public static string GetDepartmentEmail(int deptID)
+        {
+            string departmentEmail = "donotreply@tshore.com";
+
+            try
+            {
+                departmentEmail = repository.Query<string>(@"exec tsprod.dbo." + SPDebug + " @TranType='GetDepartmentEmail', @DepartmentID=" + deptID, departmentEmail).First();
+            }
+            catch { return departmentEmail.Trim(); }
+
+            return departmentEmail.Trim();
+        }
+
         public static void InsertDeparmentCheck(
             int reportID
             , int departmentID)
@@ -351,6 +366,8 @@ namespace CARS2019.Models
             }
         }
 
+
+
         public static void DeleteCheckGivenId(int reportid, int departmentID)
         {
             repository.Query<Reports>(@"exec tsprod.dbo." + SPDebug + " @TranType='DeleteCheckGivenId', @reportid=" + reportid + ", @departmentID=" + departmentID).SingleOrDefault();
@@ -399,6 +416,18 @@ namespace CARS2019.Models
         [Display(Name = "Process Needs")]
         public string corrective_action { get; set; }
         public System.DateTime created_Date { get; set; }
+        public DateTime week {
+            get
+            {
+                //System.Globalization.CultureInfo cul = System.Globalization.CultureInfo.CurrentCulture;
+                //int weekNum = cul.Calendar.GetWeekOfYear(
+                //    created_Date,
+                //    System.Globalization.CalendarWeekRule.FirstFourDayWeek,
+                //    DayOfWeek.Monday);
+                var weekEnding = DateTimeExtensions.LastDayOfWeek(created_Date);
+                return weekEnding;
+            }
+        }
     }
 
     public partial class CARSDepartmentList
@@ -434,6 +463,38 @@ namespace CARS2019.Models
     public class CheckedDepartments
     {
         public string deptID { get; set; }
+    }
+
+    public static partial class DateTimeExtensions
+    {
+        public static DateTime FirstDayOfWeek(this DateTime dt)
+        {
+            var culture = System.Threading.Thread.CurrentThread.CurrentCulture;
+            var diff = dt.DayOfWeek - culture.DateTimeFormat.FirstDayOfWeek;
+            if (diff < 0)
+                diff += 7;
+            return dt.AddDays(-diff).Date;
+        }
+
+        public static DateTime LastDayOfWeek(this DateTime dt)
+        {
+            return dt.FirstDayOfWeek().AddDays(6);
+        }
+
+        public static DateTime FirstDayOfMonth(this DateTime dt)
+        {
+            return new DateTime(dt.Year, dt.Month, 1);
+        }
+
+        public static DateTime LastDayOfMonth(this DateTime dt)
+        {
+            return dt.FirstDayOfMonth().AddMonths(1).AddDays(-1);
+        }
+
+        public static DateTime FirstDayOfNextMonth(this DateTime dt)
+        {
+            return dt.FirstDayOfMonth().AddMonths(1);
+        }
     }
 
     public class Settings

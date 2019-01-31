@@ -21,7 +21,7 @@
 
 </div>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { name = "frm", id = "frm" }))
 {
     @Html.AntiForgeryToken()
 
@@ -113,6 +113,28 @@
     </div>
 
     <div class="form-group">
+        @Html.LabelFor(model => model.component, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.component, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.component, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.throwOutInitials, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.throwOutInitials, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.throwOutDate, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input type="date" name="throwOutDate" id="throwOutDate" value="@(Model.throwOutDate == DateTime.MinValue ? "" : String.Format("{0:yyyy-MM-dd}", Model.throwOutDate))" class="form-control-sm col-3" data-itemid="throwOutDate">
+        </div>
+    </div>
+
+    <div class="form-group">
         @Html.LabelFor(model => model.notes, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.TextAreaFor(model => model.notes, 6, 80, new { htmlAttributes = new { @class = "form-control" } })
@@ -148,6 +170,8 @@
             @Html.ValidationMessageFor(model => model.created_Date, "", new { @class = "text-danger" })
         </div>
     </div>
+
+    @Html.Partial("_DepartmentChex", ViewData["checkedDepartmentList"])
 
     <table id="chextable" class="table table-responsive-sm table-sm" style="height:auto !important;">
 
@@ -288,10 +312,31 @@
 
 
     $('#submit').click(function () {
+        var list = [];
+        $('#deptchex input:checked').each(function() {
+            list.push(this.value);
+        });
+        // contains all of the checked checkboxes
+        // do something with it with ajax
+        $.ajax({
+            url: '@Url.Action("StoreCheckedDepartments", "Reports")',
+            type: 'POST',
+            data: { Parameters: list},
+            success: function (result) {
+                //alert("success!");
+                console.log("Success! Passed checked departments to controller")
+            },
+            error: function (result) {
+                //alert("error!");
+                console.log("Error! Passing checked departments to controller")
+            }
+        });   //end ajax
+
+
         var TableData;
         TableData = storeTblValues()
         TableData = JSON.stringify(TableData);
-        console.log(TableData);
+        //console.log(TableData);
 
         $.ajax({
             type: "POST",
@@ -323,7 +368,18 @@
         return TableData;
     }
 
-
+    $(function () {
+        $('#deptchex input:checked').change(function () {
+            $.ajax({
+                url: '/Reports/ToggleCheckedDepartment/?reportID=' + $('#reportID').val() + '&departmentID=' + $(this).attr("value"),
+                cache: false,
+                method: 'GET',
+                //success: function (data) { location.reload(); },
+                success: function (data) { document.getElementById("frm").submit(); },
+                error: function () { alert('error removing department'); }
+            });
+        });
+    });
 </script>
 
 
