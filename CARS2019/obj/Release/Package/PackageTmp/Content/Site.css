@@ -19,9 +19,14 @@
 
 /* Set width on the form input elements since they're 100% wide by default */
 input,
-select
-{
+select {
     max-width: 280px;
+}
+
+@media screen {
+    .print-only {
+        display: none;
+    }
 }
 
 @media print {
@@ -31,23 +36,78 @@ select
 
     .print-only {
         display: block;
+        width: 100%;
+        font-size: 24pt;
     }
 
     @page {
-        margin-top: .5in;
-        margin-bottom: .5in;
-        margin-left: .5in;
-        margin-right: .5in;
+        margin-top: .25in;
+        margin-bottom: .25in;
+        margin-left: .25in;
+        margin-right: .25in;
     }
 
     body {
-        font-size: 1.2rem;
+        font-size: 16pt;
         margin: 0;
         padding: 0 !important;
         min-width: 768px;
         background-color: white !important;
     }
 
+    .reworkLabel {
+        width: 100%;
+        border: solid;
+        border-width: 1px;
+    }
+
+    .reworkBox {
+        width: 100%;
+        border: solid;
+        border-width: 1px;
+    }
+
+    dl {
+        width: 100%;
+        overflow: hidden;
+        background: #ff0;
+        padding: 0;
+        border: solid;
+        border-width: 1px;
+        margin: 0
+    }
+
+    dt {
+        float: left;
+        width: 30%;
+        /* adjust the width; make sure the total of both is 100% */
+        background: #cc0;
+        padding: 0;
+        border: solid;
+        border-width: 1px;
+        margin: 0
+    }
+
+    dd {
+        /*float: left;*/
+        width: 70%;
+        /* adjust the width; make sure the total of both is 100% */
+        background: #dd0;
+        padding: 0;
+        border: solid;
+        border-width: 1px;
+        margin: 0
+    }
+
+    table {
+        width: 100%;
+        overflow: hidden;
+        background: #ff0;
+        padding: 0;
+        border: solid;
+        border-width: 1px;
+        margin: 0
+    }
     .card.card-title {
         font-size: large;
         font-weight: 700;

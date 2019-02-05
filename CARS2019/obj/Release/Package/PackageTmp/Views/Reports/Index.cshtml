@@ -2,6 +2,8 @@
 
 @{
     ViewBag.Title = "CARS Index";
+
+
 }
 
 
@@ -143,22 +145,82 @@
             // ***********************
             .tablesorter({
                 theme: 'ice',
-                sortList: [[@ViewBag.dateSortColumn,1]],  // setting the default sort column  to created_date descending ******** WILL NEED TO UPDATE IF NUMBER OF COLUMNS CHANGE******************
+                //sortList: [[@ViewBag.dateSortColumn, 1]],  // setting the default sort column  to created_date descending ******** WILL NEED TO UPDATE IF NUMBER OF COLUMNS CHANGE******************
+                sortList: [[@ViewBag.weekSortColumn,0], [@ViewBag.dateSortColumn,0]],  // setting the default sort column  to created_date descending ******** WILL NEED TO UPDATE IF NUMBER OF COLUMNS CHANGE******************
                 widthFixed: true,
-                widgets: ['zebra', 'filter'],
+                widgets: ["group", "columns", 'filter', 'zebra'],
                 widgetOptions: {
-                // filter_anyMatch replaced! Instead use the filter_external option
-                // Set to use a jQuery selector (or jQuery object) pointing to the
-                // external filter (column specific or any match)
-                filter_external: '.search',
-                // add a default type search to the first name column
-                filter_defaultFilter: { 1: '~{query}' },
-                // include column filters
-                filter_columnFilters: true,
-                filter_placeholder: { search: 'Search...' },
-                filter_saveFilters: true,
-                filter_reset: '.reset'
-            }
+
+                    group_collapsible: true,  // make the group header clickable and collapse the rows below it.
+                    group_collapsed: false, // start with all groups collapsed (if true)
+                    group_saveGroups: true,  // remember collapsed groups
+                    group_saveReset: '.group_reset', // element to clear saved collapsed groups
+                    group_count: " ({num})", // if not false, the "{num}" string is replaced with the number of rows in the group
+
+                    // apply the grouping widget only to selected column
+                    group_forceColumn: [],   // only the first value is used; set as an array for future expansion
+                    group_enforceSort: true, // only apply group_forceColumn when a sort is applied to the table
+
+
+                    // change these default date names based on your language preferences (see Globalize section for details)
+                    group_months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                    group_week: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                    group_time: ["AM", "PM"],
+
+                    // use 12 vs 24 hour time
+                    group_time24Hour: false,
+                    // group header text added for invalid dates
+                    group_dateInvalid: 'Invalid Date',
+
+                    // this function is used when "group-date" is set to create the date string
+                    // you can just return date, date.toLocaleString(), date.toLocaleDateString() or d.toLocaleTimeString()
+                    // reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date#Conversion_getter
+                    group_dateString: function (date) {
+                        return "Week Ending: " + date.toLocaleDateString();
+                    },
+                    @*group_formatter: function (txt, col, table, c, wo, data) {
+                        // txt = current text; col = current column
+                        // table = current table (DOM); c = table.config; wo = table.config.widgetOptions
+                        // data = group data including both group & row data
+                        if (col === @ViewBag.dateSortColumn && txt.indexOf("GMT") > 0) {
+                            // remove "GMT-0000 (Xxxx Standard Time)" from the end of the full date
+                            // this code is needed if group_dateString returns date.toString(); (not localeString)
+                            txt = txt.substring(0, txt.indexOf("GMT"));
+                        }
+                        // If there are empty cells, name the group "Empty"
+                        return txt === "" ? "Empty" : txt;
+                    },*@
+
+                    group_callback: function ($cell, $rows, column, table) {
+                        // callback allowing modification of the group header labels
+                        // $cell = current table cell (containing group header cells ".group-name" & ".group-count"
+                        // $rows = all of the table rows for the current group; table = current table (DOM)
+                        // column = current column being sorted/grouped
+                        //if (column === 2) {
+                        //    var subtotal = 0;
+                        //    $rows.each(function () {
+                        //        subtotal += parseFloat($(this).find("td").eq(column).text());
+                        //    });
+                        //    $cell.find(".group-count").append("; subtotal: " + subtotal);
+                        //}
+                    },
+                    // event triggered on the table when the grouping widget has finished work
+                    group_complete: "groupingComplete",
+
+                    // filter_anyMatch replaced! Instead use the filter_external option
+                    // Set to use a jQuery selector (or jQuery object) pointing to the
+                    // external filter (column specific or any match)
+                    filter_external: '.search',
+                    // add a default type search to the first name column
+                    filter_defaultFilter: { 1: '~{query}' },
+                    // include column filters
+                    filter_columnFilters: true,
+                    filter_placeholder: { search: 'Search...' },
+                    filter_cssFilter: ['', '', '', '', '', '', '', '', '', '', '', '', '', '','disabled','disabled'],
+                    filter_saveFilters: true,
+                    filter_childRows: true,
+                    filter_reset: '.reset'
+                }
             })
 
             // bind to pager events
@@ -246,7 +308,6 @@
         <tr>
             <th>Reported By</th>
             <th>Job</th>
-            @*<th>@Html.DisplayNameFor(model => model.customer_ID)</th>*@
             <th>@Html.DisplayNameFor(model => model.department_ID)</th>
             <th>@Html.DisplayNameFor(model => model.problem_ID)</th>
             <th>@Html.DisplayNameFor(model => model.severity_id)</th>
@@ -274,7 +335,8 @@
                 }
             }
 
-            <th>@Html.DisplayNameFor(model => model.created_Date)</th>
+            <th class="">@Html.DisplayNameFor(model => model.created_Date)</th>
+            <th class="group-date hidden ">week</th> @* {filter : false}*@
             <th class="{sorter: false}">Actions Available</th>
         </tr>
     </thead>
@@ -284,7 +346,6 @@
         <tr>
             <td>@Html.DisplayFor(modelItem => item.reporting_employee)</td>
             <td>@Html.DisplayFor(modelItem => item.job_ID)</td>
-            @*<td>@Html.DisplayFor(modelItem => item.customer_ID)</td>*@
             <td>@Html.DisplayFor(modelItem => item.department_ID)</td>
             <td>@Html.DisplayFor(modelItem => item.problem_ID)</td>
             <td>@Html.DisplayFor(modelItem => item.severity_id)</td>
@@ -325,6 +386,9 @@
 
             <td>@Html.DisplayFor(modelItem => item.created_Date)</td>
 
+            <td class="hidden ">
+                @Html.DisplayFor(modelItem => item.week)
+            </td>
 
             <td>
                 @if (Session["canEditEntry"] != null)
@@ -367,7 +431,4 @@
     </select>
     <select class="gotoPage" title="Select page number"></select>
 </div>
-
-
-
 

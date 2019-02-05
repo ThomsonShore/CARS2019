@@ -16,10 +16,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/10/2013 16:29:20</publishTime>
     </File>
     <File Include="bin/CARS2019.dll">
-      <publishTime>01/27/2019 14:16:32</publishTime>
+      <publishTime>02/01/2019 13:10:18</publishTime>
     </File>
     <File Include="bin/CARS2019.pdb">
-      <publishTime>01/27/2019 14:16:32</publishTime>
+      <publishTime>02/01/2019 13:10:18</publishTime>
     </File>
     <File Include="bin/Dapper.dll">
       <publishTime>05/16/2018 18:40:30</publishTime>
@@ -385,7 +385,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/03/2019 08:33:00</publishTime>
     </File>
     <File Include="Content/Site.css">
-      <publishTime>01/21/2019 12:45:21</publishTime>
+      <publishTime>02/01/2019 09:35:27</publishTime>
     </File>
     <File Include="Content/theme.blue.css">
       <publishTime>01/03/2019 08:29:02</publishTime>
@@ -403,7 +403,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/03/2019 08:29:16</publishTime>
     </File>
     <File Include="Content/theme.ice.css">
-      <publishTime>01/03/2019 08:41:52</publishTime>
+      <publishTime>01/31/2019 15:23:27</publishTime>
+    </File>
+    <File Include="Content/widget.grouping.css">
+      <publishTime>01/31/2019 12:44:34</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>12/28/2018 07:53:19</publishTime>
@@ -537,8 +540,20 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Scripts/tablesorter/jquery.tablesorter.widgets.js">
       <publishTime>12/31/2018 20:35:06</publishTime>
     </File>
+    <File Include="Scripts/tablesorter/parser-date-weekday.min.js">
+      <publishTime>01/31/2019 12:01:44</publishTime>
+    </File>
+    <File Include="Scripts/tablesorter/parser-input-select.min.js">
+      <publishTime>01/31/2019 12:01:44</publishTime>
+    </File>
+    <File Include="Scripts/tablesorter/widget-columns.js">
+      <publishTime>01/31/2019 12:18:42</publishTime>
+    </File>
     <File Include="Scripts/tablesorter/widget-filter.js">
       <publishTime>01/03/2019 08:28:06</publishTime>
+    </File>
+    <File Include="Scripts/tablesorter/widget-grouping.min.js">
+      <publishTime>01/31/2019 12:01:54</publishTime>
     </File>
     <File Include="Scripts/tablesorter/widget-storage.js">
       <publishTime>01/03/2019 08:28:00</publishTime>
@@ -592,13 +607,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/25/2019 11:04:35</publishTime>
     </File>
     <File Include="Views/Reports/Details.cshtml">
-      <publishTime>01/25/2019 14:16:28</publishTime>
+      <publishTime>02/01/2019 09:25:25</publishTime>
     </File>
     <File Include="Views/Reports/Edit.cshtml">
       <publishTime>01/27/2019 10:42:21</publishTime>
     </File>
     <File Include="Views/Reports/Index.cshtml">
-      <publishTime>01/27/2019 14:09:41</publishTime>
+      <publishTime>01/31/2019 15:32:51</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>12/28/2018 07:53:19</publishTime>
@@ -607,7 +622,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/27/2019 10:42:21</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>01/03/2019 10:42:36</publishTime>
+      <publishTime>02/01/2019 09:10:24</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
       <publishTime>01/04/2019 08:25:30</publishTime>
@@ -619,7 +634,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/28/2018 07:53:19</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>01/27/2019 11:22:37</publishTime>
+      <publishTime>02/01/2019 07:43:57</publishTime>
     </File>
   </ItemGroup>
 </Project>

@@ -416,7 +416,7 @@ namespace CARS2019.Models
         [Display(Name = "Process Needs")]
         public string corrective_action { get; set; }
         public System.DateTime created_Date { get; set; }
-        public DateTime week {
+        public DateTime? week {
             get
             {
                 //System.Globalization.CultureInfo cul = System.Globalization.CultureInfo.CurrentCulture;
@@ -424,6 +424,11 @@ namespace CARS2019.Models
                 //    created_Date,
                 //    System.Globalization.CalendarWeekRule.FirstFourDayWeek,
                 //    DayOfWeek.Monday);
+                DateTime datetime = new DateTime();
+                if (created_Date == DateTime.MinValue)
+                {
+                    created_Date = datetime;
+                }
                 var weekEnding = DateTimeExtensions.LastDayOfWeek(created_Date);
                 return weekEnding;
             }

@@ -19,12 +19,17 @@
     <!-- Tablesorter: required -->
     @*<link href="~/Content/theme.blue.css" rel="stylesheet" />*@
     <link href="~/Content/theme.ice.css" rel="stylesheet" />
+    <link href="~/Content/widget.grouping.css" rel="stylesheet" />
+
     <script src="~/Scripts/tablesorter/jquery.tablesorter.js"></script>
     <script src="~/Scripts/tablesorter/jquery.tablesorter.widgets.js"></script>
     <script src="~/Scripts/tablesorter/jquery.metadata.js"></script>
     <script src="~/Scripts/tablesorter/widget-storage.js"></script>
     <script src="~/Scripts/tablesorter/widget-filter.js"></script>
-
+    <script src="~/Scripts/tablesorter/parser-input-select.min.js"></script>
+    <script src="~/Scripts/tablesorter/parser-date-weekday.min.js"></script>
+    <script src="~/Scripts/tablesorter/widget-grouping.min.js"></script>
+    <script src="~/Scripts/tablesorter/widget-columns.js"></script>
     <link href="~/Content/jquery.tablesorter.pager.min.css" rel="stylesheet" />
     <script src="~/Scripts/tablesorter/jquery.tablesorter.pager.min.js"></script>
 
@@ -60,12 +65,13 @@
     <div class="container-fluid body-content">
         @RenderBody()
         <hr />
-        <footer>
+        <footer class="hidden-print">
             <p>&copy; @DateTime.Now.Year - Thomson Shore</p>
+            <i>Version: @ViewContext.Controller.GetType().Assembly.GetName().Version</i>
         </footer>
     </div>
 
- 
+
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>

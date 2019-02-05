@@ -108,7 +108,7 @@
 }
 
 /* Column Widget - column sort colors */
-.tablesorter-ice td.primary,
+/*.tablesorter-ice td.primary,
 .tablesorter-ice tr.odd td.primary {
 	background-color: #9ae5e5;
 }
@@ -128,7 +128,7 @@
 }
 .tablesorter-ice tr.even td.tertiary {
 	background-color: #ebfafa;
-}
+}*/
 
 /* sticky headers */
 .tablesorter-ice.containsStickyHeaders thead tr:nth-child(1) th,
@@ -155,11 +155,9 @@
 	transition: line-height 0.1s ease;
 }
 /* optional disabled input styling */
-.tablesorter-ice .tablesorter-filter-row .disabled {
-	opacity: 0.5;
-	filter: alpha(opacity=50);
-	cursor: not-allowed;
-}
+    .tablesorter-ice .tablesorter-filter-row .disabled {
+        display: none;
+    }
 /* hidden filter row */
 .tablesorter-ice .tablesorter-filter-row.hideme td {
 	/*** *********************************************** ***/

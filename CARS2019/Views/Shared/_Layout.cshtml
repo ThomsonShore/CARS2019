@@ -65,13 +65,13 @@
     <div class="container-fluid body-content">
         @RenderBody()
         <hr />
-        <footer>
+        <footer class="hidden-print">
             <p>&copy; @DateTime.Now.Year - Thomson Shore</p>
             <i>Version: @ViewContext.Controller.GetType().Assembly.GetName().Version</i>
         </footer>
     </div>
 
- 
+
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
