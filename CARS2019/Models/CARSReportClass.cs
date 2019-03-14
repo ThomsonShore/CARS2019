@@ -39,6 +39,20 @@ namespace CARS2019.Models
             return departmentName;
         }
 
+        public static string GetCSRandSalesEmailStringFromJobNumber(string jobNumber)
+        {
+            string emails = "";
+
+            try
+            {
+                emails = repository.Query<string>(@"exec tsprod.dbo." + SPDebug + " @TranType='GetCSRandSalesEmailStringFromJobNumber', @JobNumber=" + jobNumber, emails).First();
+            }
+            catch { return emails; }
+
+            return emails;
+        }
+
+
         public static List<Reports> GetAllReports()
         {
             var report = new Reports();
@@ -80,6 +94,7 @@ namespace CARS2019.Models
             return jobDetails;
         }
 
+
         public static int InsertCARSReport(
             string JobNumber
             , string reportingEmployee
@@ -91,9 +106,18 @@ namespace CARS2019.Models
             , string severityID // Declare as INT when we change back to using the foreign key ****************************************************************
             , decimal calculatedCost
             , string throwOutInitials
-            , DateTime? throwOutDate
+            //, DateTime? throwOutDate
             , string notes
             , string correctiveAction
+            , string pages
+            , string pressSections
+            , string proofsRequired
+            , string reworkCompleteLocation
+            , string SOMaterials
+            , string reworkProcess
+
+
+
             )
         {
             string sp = SPDebug;
@@ -117,9 +141,17 @@ namespace CARS2019.Models
                         cmd.Parameters.Add("@severityID", SqlDbType.VarChar).Value = severityID; // replace with Int when we fix the foreign key issue ******************************
                         cmd.Parameters.Add("@calculatedCost", SqlDbType.Decimal).Value = calculatedCost;
                         cmd.Parameters.Add("@throwOutInitials", SqlDbType.VarChar).Value = throwOutInitials;
-                        cmd.Parameters.Add("@throwOutDate", SqlDbType.DateTime).Value = throwOutDate;
+                        //cmd.Parameters.Add("@throwOutDate", SqlDbType.DateTime).Value = throwOutDate;
                         cmd.Parameters.Add("@notes", SqlDbType.VarChar).Value = notes;
                         cmd.Parameters.Add("@correctiveAction", SqlDbType.VarChar).Value = correctiveAction;
+                        cmd.Parameters.Add("@pages", SqlDbType.VarChar).Value = pages;
+                        cmd.Parameters.Add("@pressSections", SqlDbType.VarChar).Value = pressSections;
+                        cmd.Parameters.Add("@proofsRequired", SqlDbType.VarChar).Value = proofsRequired;
+                        cmd.Parameters.Add("@reworkCompleteLocation", SqlDbType.VarChar).Value = reworkCompleteLocation;
+                        cmd.Parameters.Add("@SOMaterials", SqlDbType.VarChar).Value = SOMaterials;
+                        cmd.Parameters.Add("@reworkProcess", SqlDbType.VarChar).Value = reworkProcess;
+
+
 
                         cmd.CommandType = CommandType.StoredProcedure;
                         sqlConn.Open();
@@ -167,9 +199,16 @@ namespace CARS2019.Models
             , string severityID // Declare as INT when we change back to using the foreign key ****************************************************************
             , decimal calculatedCost
             , string throwOutInitials
-            , DateTime? throwOutDate
+            //, DateTime? throwOutDate
             , string notes
             , string correctiveAction
+            , string pages
+            , string pressSections
+            , string proofsRequired
+            , string reworkCompleteLocation
+            , string SOMaterials
+            , string reworkProcess
+
             )
         {
             string sp = SPDebug;
@@ -193,9 +232,15 @@ namespace CARS2019.Models
                         cmd.Parameters.Add("@severityID", SqlDbType.VarChar).Value = severityID; // replace with Int when we fix the foreign key issue ******************************
                         cmd.Parameters.Add("@calculatedCost", SqlDbType.Decimal).Value = calculatedCost;
                         cmd.Parameters.Add("@throwOutInitials", SqlDbType.VarChar).Value = throwOutInitials;
-                        cmd.Parameters.Add("@throwOutDate", SqlDbType.DateTime).Value = throwOutDate;
+                        //cmd.Parameters.Add("@throwOutDate", SqlDbType.DateTime).Value = throwOutDate;
                         cmd.Parameters.Add("@notes", SqlDbType.VarChar).Value = notes;
                         cmd.Parameters.Add("@correctiveAction", SqlDbType.VarChar).Value = correctiveAction;
+                        cmd.Parameters.Add("@pages", SqlDbType.VarChar).Value = pages;
+                        cmd.Parameters.Add("@pressSections", SqlDbType.VarChar).Value = pressSections;
+                        cmd.Parameters.Add("@proofsRequired", SqlDbType.VarChar).Value = proofsRequired;
+                        cmd.Parameters.Add("@reworkCompleteLocation", SqlDbType.VarChar).Value = reworkCompleteLocation;
+                        cmd.Parameters.Add("@SOMaterials", SqlDbType.VarChar).Value = SOMaterials;
+                        cmd.Parameters.Add("@reworkProcess", SqlDbType.VarChar).Value = reworkProcess;
 
                         cmd.CommandType = CommandType.StoredProcedure;
                         sqlConn.Open();
@@ -404,17 +449,32 @@ namespace CARS2019.Models
         public int expectedQuantity { get; set; }
         [Display(Name = "Component")]
         public string component { get; set; }
-        [Display(Name = "Throw Out Initials")]
+        [Display(Name = "Throw Out Initials / Date")]
         public string throwOutInitials { get; set; }
-        [Display(Name = "Throw Out Date")]
-        public DateTime? throwOutDate { get; set; }
+        //[Display(Name = "Throw Out Date")]
+        //public DateTime? throwOutDate { get; set; }
         [Required]
         [Display(Name = "Cost")]
         public decimal? calculated_cost { get; set; }
         [Display(Name = "Rework Description")]
         public string notes { get; set; }
-        [Display(Name = "Process Needs")]
+        [Display(Name = "Process Improvements")]
         public string corrective_action { get; set; }
+
+        [Display(Name = "Pages")]
+        public string pages { get; set; }
+        [Display(Name = "Press Sections")]
+        public string pressSections { get; set; }
+        [Display(Name = "Proofs Required")]
+        public string proofsRequired { get; set; }
+        [Display(Name = "Rework Complete Location")]
+        public string reworkCompleteLocation { get; set; }
+        [Display(Name = "S.O. Materials")]
+        public string SOMaterials { get; set; }
+        [Display(Name = "Rework Process")]
+        public string reworkProcess { get; set; }
+
+
         public System.DateTime created_Date { get; set; }
         public DateTime? week {
             get

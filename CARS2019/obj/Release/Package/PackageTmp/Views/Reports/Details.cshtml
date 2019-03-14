@@ -4,6 +4,17 @@
     ViewBag.Title = "Details";
 }
 <h2 class="print-only">TS Rework </h2>
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.job_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.job_ID)
+        </dd>
+    </dl>
+</div>
 
 <div class="form-group">
     <dl class="dl-horizontal">
@@ -26,17 +37,15 @@
         <dd>@Html.DisplayFor(model => model.reporting_employee)</dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.job_ID)
+            @Html.DisplayNameFor(model => model.created_Date)
         </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.job_ID)
+            @Html.DisplayFor(model => model.created_Date)
         </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.department_ID)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.department_ID)
         </dd>
@@ -44,7 +53,6 @@
         <dt>
             @Html.DisplayNameFor(model => model.problem_ID)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.problem_ID)
         </dd>
@@ -52,7 +60,6 @@
         <dt>
             @Html.DisplayNameFor(model => model.severity_id)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.severity_id)
         </dd>
@@ -61,28 +68,25 @@
         {
             if (Session["canSeeEmployee"].ToString() == "True")
             {
-                <dt>
+                <dt class="screen-only">
                     @Html.DisplayNameFor(model => model.rework_employee)
                 </dt>
-
-                <dd>
+                <dd class="screen-only">
                     @Html.DisplayFor(model => model.rework_employee)
                 </dd>
             }
         }
 
-        <dt>
+        <dt class="hidden-print">
             @Html.DisplayNameFor(model => model.calculated_cost)
         </dt>
-
-        <dd>
+        <dd class="hidden-print">
             @Html.DisplayFor(model => model.calculated_cost)
         </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.expectedQuantity)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.expectedQuantity)
         </dd>
@@ -90,20 +94,52 @@
         <dt>
             @Html.DisplayNameFor(model => model.component)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.component)
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.pages)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.pages)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.pressSections)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.pressSections)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.proofsRequired)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.proofsRequired)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.reworkCompleteLocation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.reworkCompleteLocation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SOMaterials)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SOMaterials)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.throwOutInitials)
         </dt>
-
         <dd>
-            
             @Html.DisplayFor(model => model.throwOutInitials)
         </dd>
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.throwOutDate)
         </dt>
         @{
@@ -117,7 +153,7 @@
             {
                 <dd></dd>
             }
-        }
+        }*@
 
         <dt class="reworkLabel">
             @Html.DisplayNameFor(model => model.notes)
@@ -127,28 +163,29 @@
             @Html.DisplayFor(model => model.notes)
         </dd>
 
+        <dt class="reworkBox">
+            @Html.DisplayNameFor(model => model.reworkProcess)
+        </dt>
+        <dd class="reworkLabel">
+            @Html.DisplayFor(model => model.reworkProcess)
+        </dd>
+
         @if (Session["canSeeCorrectiveAction"] != null)
         {
             if (Session["canSeeCorrectiveAction"].ToString() == "True")
             {
-                <dt>
+                <dt class="hidden-print">
                     @Html.DisplayNameFor(model => model.corrective_action)
                 </dt>
 
-                <dd>
+                <dd class="hidden-print">
                     @Html.DisplayFor(model => model.corrective_action)
                 </dd>
             }
 
         }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.created_Date)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.created_Date)
-        </dd>
 
     </dl>
 

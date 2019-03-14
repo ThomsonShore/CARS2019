@@ -32,7 +32,7 @@ namespace CARS2019.Controllers
         [SessionExpire]
         public ActionResult Index()
         {
-            int count = 13; // crufty hack to set the default sort column number (Date Created), since we optionally hide / show columns, update this as needed.
+            int count = 12; // crufty hack to set the default sort column number (Date Created), since we optionally hide / show columns, update this as needed.
 
 
             if (Session["canSeeCorrectiveAction"] != null)
@@ -127,7 +127,9 @@ namespace CARS2019.Controllers
         [SessionExpire]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,reporting_employee,job_ID,department_ID,component,problem_ID,severity_id,rework_employee,expectedQuantity,calculated_cost,throwOutInitials,throwOutDate,notes,corrective_action,created_Date")] Reports reports)
+        public ActionResult Create([Bind(Include = "id,reporting_employee,job_ID,department_ID,component,problem_ID,severity_id," +
+            "rework_employee,expectedQuantity,calculated_cost,throwOutInitials,notes,corrective_action," +
+            "created_Date,pages,pressSections,proofsRequired,reworkCompleteLocation,SOMaterials,reworkProcess")] Reports reports)
         {
             if (ModelState.IsValid)
             {
@@ -148,9 +150,16 @@ namespace CARS2019.Controllers
                     , reports.severity_id
                     , (reports.calculated_cost ?? 0)
                     , reports.throwOutInitials
-                    , reports.throwOutDate
+                    //, reports.throwOutDate
                     , reports.notes
                     , reports.corrective_action
+                    , reports.pages
+                    , reports.pressSections
+                    , reports.proofsRequired
+                    , reports.reworkCompleteLocation
+                    , reports.SOMaterials
+                    , reports.reworkProcess
+
                     );
 
                 if (insertResults > 0) // Successfully inserted report
@@ -159,7 +168,9 @@ namespace CARS2019.Controllers
                     //db.SaveChanges();
                     //db.Entry(reports).GetDatabaseValues();
 
-                    string departmentEmailList = "robinf@tshore.com";
+                    string departmentEmailList = "robinf@tshore.com; carlt@tshore.com";
+
+                    departmentEmailList += ";" + TSProd.GetCSRandSalesEmailStringFromJobNumber(reports.job_ID);
 
                     if (TempData["tempChecked"] != null)
                     {
@@ -169,6 +180,7 @@ namespace CARS2019.Controllers
                             string departmentEmail = TSProd.GetDepartmentEmail(Int32.Parse(dept));
                             departmentEmailList += ";" + departmentEmail;
                         }
+
                     }
 
                     var targetURL = "https://cars.tshore.com/Reports/Details/" + insertResults;
@@ -233,7 +245,9 @@ namespace CARS2019.Controllers
         [SessionExpire]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,reporting_employee,job_ID,department_ID,component,problem_ID,severity_id,rework_employee,expectedQuantity,calculated_cost,throwOutInitials,throwOutDate,notes,corrective_action,created_Date")] Reports reports)
+        public ActionResult Edit([Bind(Include = "id,reporting_employee,job_ID,department_ID,component,problem_ID,severity_id,rework_employee," +
+            "expectedQuantity,calculated_cost,throwOutInitials,notes,corrective_action,created_Date,pages,pressSections," +
+            "proofsRequired,reworkCompleteLocation,SOMaterials,reworkProcess")] Reports reports)
         {
             if (ModelState.IsValid)
             {
@@ -257,9 +271,16 @@ namespace CARS2019.Controllers
                     , reports.severity_id
                     , (reports.calculated_cost ?? 0)
                     , reports.throwOutInitials
-                    , reports.throwOutDate
+                    //, reports.throwOutDate
                     , reports.notes
                     , reports.corrective_action
+                    , reports.pages
+                    , reports.pressSections
+                    , reports.proofsRequired
+                    , reports.reworkCompleteLocation
+                    , reports.SOMaterials
+                    , reports.reworkProcess
+
                     );
 
                 if (insertResults == 0) // Successfully inserted report

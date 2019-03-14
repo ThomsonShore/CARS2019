@@ -7,19 +7,7 @@
 <h2>Edit</h2>
 <hr />
 
-<div class="form-group">
-    <dl class="dl-horizontal">
-        <dt>Customer Name:</dt>
-        <dd id="customerName" name="customerName"></dd>
-        <dt>Customer Id:</dt>
-        <dd id="cust_ID" name="cust_ID"></dd>
-        <dt>Title:</dt>
-        <dd id="Title" name="Title"></dd>
-        <dt>CSR:</dt>
-        <dd id="CSRName" name="CSRName"></dd>
-    </dl>
 
-</div>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { name = "frm", id = "frm" }))
 {
@@ -31,6 +19,28 @@
     @Html.HiddenFor(model => model.id)
 
     <div class="form-group">
+        @Html.LabelFor(model => model.job_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.job_ID, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.job_ID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <dl class="dl-horizontal">
+            <dt>Customer Name:</dt>
+            <dd id="customerName" name="customerName"></dd>
+            <dt>Customer Id:</dt>
+            <dd id="cust_ID" name="cust_ID"></dd>
+            <dt>Title:</dt>
+            <dd id="Title" name="Title"></dd>
+            <dt>CSR:</dt>
+            <dd id="CSRName" name="CSRName"></dd>
+        </dl>
+
+    </div>
+
+    <div class="form-group">
         @Html.LabelFor(model => model.reporting_employee, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.reporting_employee, new { htmlAttributes = new { @class = "form-control" } })
@@ -38,13 +48,7 @@
         </div>
     </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.job_ID, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.job_ID, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.job_ID, "", new { @class = "text-danger" })
-        </div>
-    </div>
+
 
 
     <div class="form-group">
@@ -121,24 +125,72 @@
     </div>
 
     <div class="form-group">
+        @Html.LabelFor(model => model.pages, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.pages, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.pages, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.pressSections, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.pressSections, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.pressSections, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.proofsRequired, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.proofsRequired, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.proofsRequired, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.reworkCompleteLocation, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.reworkCompleteLocation, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.reworkCompleteLocation, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.SOMaterials, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.SOMaterials, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.SOMaterials, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
         @Html.LabelFor(model => model.throwOutInitials, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.throwOutInitials, new { htmlAttributes = new { @class = "form-control" } })
         </div>
     </div>
 
-    <div class="form-group">
+    @*<div class="form-group">
         @Html.LabelFor(model => model.throwOutDate, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             <input type="date" name="throwOutDate" id="throwOutDate" value="@(Model.throwOutDate == DateTime.MinValue ? "" : String.Format("{0:yyyy-MM-dd}", Model.throwOutDate))" class="form-control-sm col-3" data-itemid="throwOutDate">
         </div>
-    </div>
+    </div>*@
 
     <div class="form-group">
         @Html.LabelFor(model => model.notes, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.TextAreaFor(model => model.notes, 6, 80, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.notes, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.reworkProcess, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.reworkProcess, 6, 80, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.reworkProcess, "", new { @class = "text-danger" })
         </div>
     </div>
 

@@ -23,12 +23,14 @@ select {
     max-width: 280px;
 }
 
+/* add this class to supress element on display, but still print*/
 @media screen {
     .print-only {
         display: none;
     }
 }
 
+/* add these classes to elements to set print only attributes*/
 @media print {
     .screen-only {
         display: none;
@@ -37,7 +39,7 @@ select {
     .print-only {
         display: block;
         width: 100%;
-        font-size: 24pt;
+        font-size: 12pt;
     }
 
     @page {
@@ -48,25 +50,28 @@ select {
     }
 
     body {
-        font-size: 16pt;
+        font-size: 12pt;
         margin: 0;
         padding: 0 !important;
         min-width: 768px;
         background-color: white !important;
     }
 
+    /*setting special formatting for the Rework Description Label*/
     .reworkLabel {
         width: 100%;
         border: solid;
         border-width: 1px;
     }
 
+    /*setting special formatting for the Rework Description Text area*/
     .reworkBox {
         width: 100%;
         border: solid;
         border-width: 1px;
     }
 
+    /* These options apply mostly to the Details page*/
     dl {
         width: 100%;
         overflow: hidden;
@@ -99,6 +104,7 @@ select {
         margin: 0
     }
 
+    /* this sets formatting for the checked department table */
     table {
         width: 100%;
         overflow: hidden;
@@ -108,6 +114,8 @@ select {
         border-width: 1px;
         margin: 0
     }
+
+    /* these were defaults, not sure if they are being used anywhere*/
     .card.card-title {
         font-size: large;
         font-weight: 700;
@@ -118,7 +126,7 @@ select {
         min-width: 750px;
         background-color: white !important;
     }
-}
+} /* End of @media print */
 
 
 /* Override the default bootstrap behavior where horizontal description lists 

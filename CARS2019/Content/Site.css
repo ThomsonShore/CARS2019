@@ -39,7 +39,7 @@ select {
     .print-only {
         display: block;
         width: 100%;
-        font-size: 24pt;
+        font-size: 12pt;
     }
 
     @page {
@@ -50,7 +50,7 @@ select {
     }
 
     body {
-        font-size: 16pt;
+        font-size: 12pt;
         margin: 0;
         padding: 0 !important;
         min-width: 768px;
@@ -126,7 +126,7 @@ select {
         min-width: 750px;
         background-color: white !important;
     }
-}
+} /* End of @media print */
 
 
 /* Override the default bootstrap behavior where horizontal description lists 

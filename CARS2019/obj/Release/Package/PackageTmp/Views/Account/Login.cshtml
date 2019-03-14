@@ -11,7 +11,9 @@
             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
                 @Html.AntiForgeryToken()
-                <h4>Use your Windows Username and Password to log in.</h4>
+                <h4>Use your Windows Username (<i>not email, do not include @@tshore.com</i>) 
+                and Password to log in.</h4>
+                <h5>(ex. jsmith not jsmith@@tshore.com)</h5>
                 <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">

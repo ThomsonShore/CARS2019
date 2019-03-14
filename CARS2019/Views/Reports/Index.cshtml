@@ -146,7 +146,7 @@
             .tablesorter({
                 theme: 'ice',
                 //sortList: [[@ViewBag.dateSortColumn, 1]],  // setting the default sort column  to created_date descending ******** WILL NEED TO UPDATE IF NUMBER OF COLUMNS CHANGE******************
-                sortList: [[@ViewBag.weekSortColumn,0], [@ViewBag.dateSortColumn,0]],  // setting the default sort column  to created_date descending ******** WILL NEED TO UPDATE IF NUMBER OF COLUMNS CHANGE******************
+                sortList: [[@ViewBag.weekSortColumn,1], [@ViewBag.dateSortColumn,1]],  // setting the default sort column  to created_date descending ******** WILL NEED TO UPDATE IF NUMBER OF COLUMNS CHANGE******************
                 widthFixed: true,
                 widgets: ["group", "columns", 'filter', 'zebra'],
                 widgetOptions: {
@@ -302,7 +302,7 @@
     </select>
     <select class="gotoPage" title="Select page number"></select>
 </div>
-<table id="table" class="tablesorter">
+<table id="table" class="tablesorter" oncontextmenu="return false">
 
     <thead>
         <tr>
@@ -322,7 +322,7 @@
             <th>@Html.DisplayNameFor(model => model.expectedQuantity)</th>
             <th>@Html.DisplayNameFor(model => model.component)</th>
             <th>@Html.DisplayNameFor(model => model.throwOutInitials)</th>
-            <th>@Html.DisplayNameFor(model => model.throwOutDate)</th>
+            @*<th>@Html.DisplayNameFor(model => model.throwOutDate)</th>*@
             <th>Cost</th>
             <th class="{sorter: false}">@Html.DisplayNameFor(model => model.notes)</th>
 
@@ -360,7 +360,7 @@
             <td>@Html.DisplayFor(modelItem => item.expectedQuantity)</td>
             <td>@Html.DisplayFor(modelItem => item.component)</td>
             <td>@Html.DisplayFor(modelItem => item.throwOutInitials)</td>
-            @{
+            @*@{
                 if (item.throwOutDate == DateTime.MinValue)
                 {
                     <td> </td>
@@ -369,7 +369,7 @@
                 {
                     <td>@Html.DisplayFor(modelItem => item.throwOutDate)</td>
                 }
-            }
+            }*@
 
             <td>@Html.DisplayFor(modelItem => item.calculated_cost)</td>
             <td>@Html.DisplayFor(modelItem => item.notes)</td>
@@ -431,4 +431,3 @@
     </select>
     <select class="gotoPage" title="Select page number"></select>
 </div>
-
