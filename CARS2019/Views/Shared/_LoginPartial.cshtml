@@ -20,7 +20,7 @@
             @Html.AntiForgeryToken()
             <ul class="nav navbar-nav navbar-right">
 
-                <li>
+                <li class="@(ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString() == "Account" ? "active" : "")">
                     @Html.ActionLink(System.Web.HttpContext.Current.User.Identity.Name, "UserProfile", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })
                 </li>
             </ul>

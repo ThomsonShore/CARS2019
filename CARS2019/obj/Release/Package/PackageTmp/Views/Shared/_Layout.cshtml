@@ -49,14 +49,17 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("CARS 2019", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @*@Html.ActionLink("CARS 2019", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
+                @*Controller is: @ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString()*@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("CARS Reporting", "Index", "Reports")</li>
+                    <li class="@(ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString() == "Home" ? "active" : "")">@Html.ActionLink("Home", "Index", "Home")</li>
+                    @*<li>@Html.ActionLink("About", "About", "Home")</li>*@
+                    @*<li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
+                    <li class="@(HttpContext.Current.Request.QueryString["reworkType"] == "TR" ? "active" : "")">@Html.ActionLink("TS", "Index", "Reports", routeValues: new { reportStatus = 0, reworkType = "TR" }, htmlAttributes: null)</li>
+                    <li class="@(HttpContext.Current.Request.QueryString["reworkType"] == "CR" ? "active" : "")">@Html.ActionLink("Customer", "Index", "Reports", routeValues: new { reportStatus = 0, reworkType = "CR" }, htmlAttributes: null)</li>
+                    <li class="@(HttpContext.Current.Request.QueryString["reworkType"] == "VR" ? "active" : "")">@Html.ActionLink("Vendor", "Index", "Reports", routeValues: new { reportStatus = 0, reworkType = "VR" }, htmlAttributes: null)</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -74,5 +77,6 @@
 
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
 </body>
 </html>

@@ -1,0 +1,284 @@
+﻿@model CARS2019.Models.Reports
+
+@{
+    ViewBag.Title = "Change Status";
+}
+
+<h2>Update Status</h2>
+
+<hr />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <dl class="dl-horizontal">
+            <dt>Customer Name:</dt>
+            <dd id="customerName" name="customerName"></dd>
+            <dt>Customer Id:</dt>
+            <dd id="cust_ID" name="cust_ID"></dd>
+            <dt>Title:</dt>
+            <dd id="Title" name="Title"></dd>
+            <dt>CSR:</dt>
+            <dd id="CSRName" name="CSRName"></dd>
+        </dl>
+
+    </div>
+
+    <div>
+        <h4>Reports</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.reporting_employee)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.reporting_employee)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.job_ID)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.job_ID)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.department_ID)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.department_ID)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.problem_ID)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.problem_ID)
+            </dd>
+
+            @if (Model.reworkType == "TR")
+            {
+                <dt>
+                    @Html.DisplayNameFor(model => model.severity_id)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.severity_id)
+                </dd>
+
+                if (Session["canSeeEmployee"] != null)
+                {
+                    if (Session["canSeeEmployee"].ToString() == "True")
+                    {
+                        <dt>
+                            @Html.DisplayNameFor(model => model.rework_employee)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.rework_employee)
+                        </dd>
+                    }
+                }
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.calculated_cost)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.calculated_cost)
+                </dd>
+
+            }
+
+
+            <dt>
+                @Html.DisplayNameFor(model => model.expectedQuantity)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.expectedQuantity)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.component)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.component)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.pages)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.pages)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.pressSections)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.pressSections)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.proofsRequired)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.proofsRequired)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.reworkCompleteLocation)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.reworkCompleteLocation)
+            </dd>
+            @if (Model.reworkType == "VR")
+            {
+                <dt>
+                    @Html.DisplayNameFor(model => model.vendor)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.vendor)
+                </dd>
+            }
+            <dt>
+                @Html.DisplayNameFor(model => model.SOMaterials)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.SOMaterials)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.throwOutInitials)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.throwOutInitials)
+            </dd>
+            @*<dt>
+            @Html.DisplayNameFor(model => model.throwOutDate)
+        </dt>
+        @{
+            if (Model.throwOutDate != DateTime.MinValue)
+            {
+                <dd>
+                    @Html.DisplayFor(model => model.throwOutDate)
+                </dd>
+            }
+            else
+            {
+                <dd></dd>
+            }
+        }*@
+
+            <dt>
+                @Html.DisplayNameFor(model => model.notes)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.notes)
+            </dd>
+
+            @if (Session["canSeeCorrectiveAction"] != null)
+            {
+                if (Session["canSeeCorrectiveAction"].ToString() == "True")
+                {
+                    <dt>
+                        @Html.DisplayNameFor(model => model.corrective_action)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.corrective_action)
+                    </dd>
+                }
+
+            }
+
+            <dt>
+                @Html.DisplayNameFor(model => model.created_Date)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.created_Date)
+            </dd>
+
+        </dl>
+
+
+        <table id="chextable" class="table table-responsive-sm table-sm" style="height:auto !important;">
+
+            <thead>
+                <tr class="row m-0" style="font-size:smaller;">
+                    <th class="d-inline-block col-1">Department Name</th>
+                    <th class="d-inline-block col-1">Operator Name</th>
+                    <th class="d-inline-block col-1">Quantity</th>
+                    <th class="d-inline-block col-1">Completed Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewData["checkedDepartmentList"] as IEnumerable<CARS2019.Models.DepartmentCheck>)
+                {
+                    <tr class="row m-0" style="font-size:smaller;">
+                        <td class="d-inline-block col-1">@item.departmentName</td>
+                        <td class="d-inline-block col-1">@item.operatorName</td>
+                        <td class="d-inline-block col-1">@item.quantity</td>
+                        <td class="d-inline-block col-1">@(item.completedDate == null ? "" : String.Format("{0:yyyy-MM-dd}", (DateTime.Parse(item.completedDate))))</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+
+    </div>
+
+    <script>
+    $(document).ready(function () {
+
+        var JobDetailsFromJSON = {};
+        JobDetailsFromJSON.url = "/Reports/JobDetails/?jobNumber=" + @Model.job_ID;
+        JobDetailsFromJSON.type = "POST";
+        JobDetailsFromJSON.datatype = "json";
+        JobDetailsFromJSON.contentType = "application/json";
+        JobDetailsFromJSON.success = function (jobDetails) {
+            obj = $.parseJSON(jobDetails);
+            $("#customerName").text(obj[0].cust_name);
+            $("#cust_ID").text(obj[0].cust_key);
+            $("#Title").text(obj[0].Title);
+            $("#CSRName").text(obj[0].csr_name);
+        };
+        JobDetailsFromJSON.error = function () {
+            alert("Error in Getting JobDetails!!");
+        };
+        $.ajax(JobDetailsFromJSON);
+    });
+    </script>
+
+
+
+
+    <div class="col-md-2 form-group">
+        @Html.LabelFor(model => model.reportStatus, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.Hidden("reworkType", Model.reworkType)
+        <div class="col-md-4">
+            @Html.DropDownListFor(model => model.reportStatus, new List<SelectListItem>
+                {
+                new SelectListItem{ Text="Active", Value = "0" },
+                new SelectListItem{ Text="Complete", Value = "1" },
+                new SelectListItem{ Text="Deleted", Value = "-1" }
+                })
+        </div>
+        <div class="col-md-4">
+            <input type="submit" value="ChangeStatus" class="btn btn-default" />
+        </div>
+
+    </div>
+
+    <div class="form-actions no-color">
+        @Html.ActionLink("Back to List", "Index", routeValues: new { reportStatus = Model.reportStatus, reworkType = Model.reworkType }, htmlAttributes: null)
+    </div>
+}

@@ -7,17 +7,68 @@
 }
 
 
-<h2>Index</h2>
+@switch (ViewBag.reworkType)
+{
+    case "TR":
+        <h2>TS Rework</h2>
+        break;
+    case "CR":
+        <h2>Customer Rework</h2>
+        break;
+    case "VR":
+        <h2>Vendor Rework</h2>
+        break;
+}
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-    @if (Session["canSeeEmployee"] != null && Session["canSeeCorrectiveAction"] != null)
+@if (Session["canSeeEmployee"] != null && Session["canSeeCorrectiveAction"] != null)
+{
+    if (Session["canSeeEmployee"].ToString() == "True" && Session["canSeeCorrectiveAction"].ToString() == "True")
     {
-        if (Session["canSeeEmployee"].ToString() == "True" && Session["canSeeCorrectiveAction"].ToString() == "True")
-        {<input type="button" value="Export to Excel" onclick="location.href='@Url.Action("Export", "Reports")'" />}
+
+        @Html.AntiForgeryToken()
+        <div class="row col-md-12">
+            <div class="col-md-4 form-group">
+                <div class="col-md-1">Status:</div>
+                <div class="col-md-4">
+                    @Html.DropDownList("reportStatus", new List<SelectListItem>
+                        {
+                        new SelectListItem{ Text="Active", Value = "0" },
+                        new SelectListItem{ Text="Complete", Value = "1" },
+                        new SelectListItem{ Text="Deleted", Value = "-1" }
+                        })
+                    @Html.Hidden("reworkType", HttpContext.Current.Request.QueryString["reworkType"])
+                </div>
+                <div class="col-md-6">
+                    @*<input type="submit" value="Filter by Status" class="btn btn-info" />*@
+                    <input id="filterResults" type="button" value="Filter by Status" class="btn btn-info" onclick="location.href='@Url.Action("Index", "Reports", new { reworkType=ViewBag.reworkType, reportStatus = HttpContext.Current.Request.QueryString["reportStatus"] })'" />
+                    <input id="excelExport" type="button" value="Export to Excel" class="btn btn-info" onclick="location.href='@Url.Action("Export", "Reports", new { reworkType=ViewBag.reworkType, reportStatus = HttpContext.Current.Request.QueryString["reportStatus"] })'" />
+                </div>
+            </div>
+        </div>
+        
     }
-</p>
+}
+
+
+
+<div class="row col-md-12">
+    <div class="col-md-2">
+        @Html.ActionLink("Create New", "Create", routeValues: new { reportStatus = 0, reworkType = ViewBag.reworkType }, htmlAttributes: null)
+    </div>
+</div>
 <script id="js">
+    $("#reportStatus").change(function () {
+        var end = this.value;
+        var reworkT = "@ViewBag.reworkType";
+        var link = "location.href='/Reports/Export?reworkType=" + reworkT + "&reportStatus=" + end + "'";
+        var filterLink = "location.href='/Reports?reworkType=" + reworkT + "&reportStatus=" + end + "'";
+        //link = link.replace("X", end);
+        //filterLink = filterLink.replace("X", end)
+        $('#excelExport').attr('onClick', link);
+        $('#filterResults').attr('onClick', filterLink);
+    });
+
+
     //$(function () {
 
     //    var $table = $('table').tablesorter({
@@ -148,9 +199,9 @@
                 //sortList: [[@ViewBag.dateSortColumn, 1]],  // setting the default sort column  to created_date descending ******** WILL NEED TO UPDATE IF NUMBER OF COLUMNS CHANGE******************
                 sortList: [[@ViewBag.weekSortColumn,1], [@ViewBag.dateSortColumn,1]],  // setting the default sort column  to created_date descending ******** WILL NEED TO UPDATE IF NUMBER OF COLUMNS CHANGE******************
                 widthFixed: true,
-                widgets: ["group", "columns", 'filter', 'zebra'],
+                widgets: ["group", "columns", 'filter', 'zebra', 'resizable', 'stickyHeaders'],
                 widgetOptions: {
-
+                    resizable: true,
                     group_collapsible: true,  // make the group header clickable and collapse the rows below it.
                     group_collapsed: false, // start with all groups collapsed (if true)
                     group_saveGroups: true,  // remember collapsed groups
@@ -282,27 +333,41 @@
     });
 
 </script>
-<div class="form-group"><input class="search" type="search" data-column="all"> (Match any column)<br></div>
-<button type="button" class="reset">Reset Search</button>
-<!-- pager -->
-<div id="pager" class="pager">
-    <img src="~/Content/images/first.png" class="first" alt="First" />
-    <img src="~/Content/images/prev.png" class="prev" alt="Prev" />
-    <!-- the "pagedisplay" can be any element, including an input -->
-    <span class="pagedisplay" data-pager-output-filtered="{startRow:input} &ndash; {endRow} / {filteredRows} of {totalRows} total rows"></span>
-    <img src="~/Content/images/next.png" class="next" alt="Next" />
-    <img src="~/Content/images/last.png" class="last" alt="Last" />
-
-    <select class="pagesize">
-        <option value="10">10</option>
-        <option value="20">20</option>
-        <option value="30">30</option>
-        <option value="40">40</option>
-        <option value="all">All Rows</option>
-    </select>
-    <select class="gotoPage" title="Select page number"></select>
+<div class="row col-md-12">
+    <div class="form-group">
+        <input class="search" type="search" data-column="all"> (Match any column)<br>
+        <button type="button" class="reset">Reset Search</button>
+    </div>
 </div>
-<table id="table" class="tablesorter" oncontextmenu="return false">
+
+
+@*@Html.ActionLink(
+    "View Completed",
+    "Index",                         // controller action
+    "Reports",        // controller
+    new { reportStatus = 1 },         // action parameters aka route values
+    new { @class = "btn btn-info" })*@
+<!-- pager -->
+<div class="row col-md-12">
+    <div id="pager" class="pager">
+        <img src="~/Content/images/first.png" class="first" alt="First" />
+        <img src="~/Content/images/prev.png" class="prev" alt="Prev" />
+        <!-- the "pagedisplay" can be any element, including an input -->
+        <span class="pagedisplay" data-pager-output-filtered="{startRow:input} &ndash; {endRow} / {filteredRows} of {totalRows} total rows"></span>
+        <img src="~/Content/images/next.png" class="next" alt="Next" />
+        <img src="~/Content/images/last.png" class="last" alt="Last" />
+
+        <select class="pagesize">
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="40">40</option>
+            <option value="all">All Rows</option>
+        </select>
+        <select class="gotoPage" title="Select page number"></select>
+    </div>
+</div>
+<table id="table" class="tablesorter" style="width:auto" oncontextmenu="return false">
 
     <thead>
         <tr>
@@ -310,20 +375,36 @@
             <th>Job</th>
             <th>@Html.DisplayNameFor(model => model.department_ID)</th>
             <th>@Html.DisplayNameFor(model => model.problem_ID)</th>
-            <th>@Html.DisplayNameFor(model => model.severity_id)</th>
-
-            @if (Session["canSeeEmployee"] != null)
+            @if (ViewBag.reworkType == "VR")
             {
-                if (Session["canSeeEmployee"].ToString() == "True")
-                {
-                    <th>Employee</th>}
+                <th>@Html.DisplayNameFor(model => model.vendor)</th>
             }
+
+
+            @if (ViewBag.reworkType == "TR")
+            {
+
+                <th>@Html.DisplayNameFor(model => model.severity_id)</th>
+
+                if (Session["canSeeEmployee"] != null)
+                {
+                    if (Session["canSeeEmployee"].ToString() == "True")
+                    {
+                        <th>Employee</th>}
+                }
+
+            }
+
 
             <th>@Html.DisplayNameFor(model => model.expectedQuantity)</th>
             <th>@Html.DisplayNameFor(model => model.component)</th>
             <th>@Html.DisplayNameFor(model => model.throwOutInitials)</th>
             @*<th>@Html.DisplayNameFor(model => model.throwOutDate)</th>*@
-            <th>Cost</th>
+            @if (ViewBag.reworkType == "TR")
+            {
+                <th>Cost</th>
+            }
+
             <th class="{sorter: false}">@Html.DisplayNameFor(model => model.notes)</th>
 
 
@@ -348,30 +429,46 @@
             <td>@Html.DisplayFor(modelItem => item.job_ID)</td>
             <td>@Html.DisplayFor(modelItem => item.department_ID)</td>
             <td>@Html.DisplayFor(modelItem => item.problem_ID)</td>
-            <td>@Html.DisplayFor(modelItem => item.severity_id)</td>
 
-            @if (Session["canSeeEmployee"] != null)
+            @if (ViewBag.reworkType == "VR")
             {
-                if (Session["canSeeEmployee"].ToString() == "True")
-                {
-                    <td>@Html.DisplayFor(modelItem => item.rework_employee)</td>
-                }
+            <td>@Html.DisplayFor(modelItem => item.vendor)</td>
             }
+
+            @if (ViewBag.reworkType == "TR")
+            {
+
+                <td>@Html.DisplayFor(modelItem => item.severity_id)</td>
+
+                if (Session["canSeeEmployee"] != null)
+                {
+                    if (Session["canSeeEmployee"].ToString() == "True")
+                    {
+                        <td>@Html.DisplayFor(modelItem => item.rework_employee)</td>
+                    }
+                }
+
+            }
+
             <td>@Html.DisplayFor(modelItem => item.expectedQuantity)</td>
             <td>@Html.DisplayFor(modelItem => item.component)</td>
             <td>@Html.DisplayFor(modelItem => item.throwOutInitials)</td>
             @*@{
-                if (item.throwOutDate == DateTime.MinValue)
-                {
-                    <td> </td>
-                }
-                else
-                {
-                    <td>@Html.DisplayFor(modelItem => item.throwOutDate)</td>
-                }
-            }*@
+            if (item.throwOutDate == DateTime.MinValue)
+            {
+                <td> </td>
+            }
+            else
+            {
+                <td>@Html.DisplayFor(modelItem => item.throwOutDate)</td>
+            }
+        }*@
 
-            <td>@Html.DisplayFor(modelItem => item.calculated_cost)</td>
+            @if (ViewBag.reworkType == "TR")
+            {
+                <td>@Html.DisplayFor(modelItem => item.calculated_cost)</td>
+            }
+
             <td>@Html.DisplayFor(modelItem => item.notes)</td>
 
 
@@ -403,7 +500,7 @@
                 {
                     if (Session["canDeleteEntry"].ToString() == "True")
                     {
-                        @Html.ActionLink("Delete", "Delete", new { id = item.id }) @Html.Raw(" | ")
+                        @Html.ActionLink("ChangeStatus", "ChangeStatus", new { id = item.id }) @Html.Raw(" | ")
                     }
                 }
                 @Html.ActionLink("Details", "Details", new { id = item.id })

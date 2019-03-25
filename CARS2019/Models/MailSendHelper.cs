@@ -65,7 +65,7 @@ namespace CARS2019.Models
             smtp.Host = "smtp.gmail.com";
 
             mail.To.Add(recipientEmail);
-            mail.Subject = "CARS ERROR ";
+            mail.Subject = "CARS ALERT ";
             mail.IsBodyHtml = true;
 
             string htmlBody = @"

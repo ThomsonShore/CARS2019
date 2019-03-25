@@ -4,7 +4,7 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<h2>Create @ViewBag.reworkType</h2>
 <hr />
 <script src="~/Scripts/jquery.validate-vsdoc.js"></script>
 <script src="~/Scripts/jquery.validate.js"></script>
@@ -51,7 +51,6 @@
     </div>
 
 
-
     <div class="form-group">
         @Html.LabelFor(model => model.department_ID, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
@@ -68,34 +67,40 @@
         </div>
     </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.severity_id, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(model => model.severity_id, new List<SelectListItem>
-                {
-                new SelectListItem{ Text="Minor", Value = "Minor" },
-                new SelectListItem{ Text="Major", Value = "Major" },
-                new SelectListItem{ Text="Critical", Value = "Critical" }
-                })
-            @Html.ValidationMessageFor(model => model.severity_id, "", new { @class = "text-danger" })
-        </div>
-    </div>
+    @if (ViewBag.reworkType == "TR")
+    {
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.rework_employee, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.rework_employee, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.rework_employee, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.severity_id, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.severity_id, new List<SelectListItem>
+                    {
+                    new SelectListItem{ Text="Minor", Value = "Minor" },
+                    new SelectListItem{ Text="Major", Value = "Major" },
+                    new SelectListItem{ Text="Critical", Value = "Critical" }
+                    })
+                @Html.ValidationMessageFor(model => model.severity_id, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.calculated_cost, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.calculated_cost, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.calculated_cost, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.rework_employee, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.rework_employee, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.rework_employee, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.calculated_cost, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.calculated_cost, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.calculated_cost, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    }
+
+
 
     <div class="form-group">
         @Html.LabelFor(model => model.expectedQuantity, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -145,6 +150,17 @@
         </div>
     </div>
 
+    @if (ViewBag.reworkType == "VR")
+    {
+        <div class="form-group">
+            @Html.LabelFor(model => model.vendor, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.vendor, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.vendor, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    }
+
     <div class="form-group">
         @Html.LabelFor(model => model.SOMaterials, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
@@ -161,11 +177,11 @@
     </div>
 
     @*<div class="form-group">
-        @Html.LabelFor(model => model.throwOutDate, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.throwOutDate, new { htmlAttributes = new { @type = "date", @class = "form-control-sm col-3" } })
-        </div>
-    </div>*@
+            @Html.LabelFor(model => model.throwOutDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.throwOutDate, new { htmlAttributes = new { @type = "date", @class = "form-control-sm col-3" } })
+            </div>
+        </div>*@
 
     <div class="form-group">
         @Html.LabelFor(model => model.notes, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -184,13 +200,13 @@
     </div>
 
     @*<div class="form-group">
-        @Html.LabelFor(model => model.corrective_action, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextAreaFor(model => model.corrective_action, 6, 40, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.corrective_action, "", new { @class = "text-danger" })
-        </div>
+            @Html.LabelFor(model => model.corrective_action, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.corrective_action, 6, 40, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.corrective_action, "", new { @class = "text-danger" })
+            </div>
 
-    </div>*@
+        </div>*@
 
     <div class="form-group">
         <div class="col-md-10">
@@ -219,6 +235,34 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                 @Html.CheckBox(@department.departmentName, false, htmlAttributes: new { name = @department.departmentName, value = @department.id });
                                 @department.departmentName
                             @:</td>
@@ -239,7 +283,7 @@
         }
 
         <div>
-            @Html.ActionLink("Back to List", "Index")
+            @Html.ActionLink("Back to List", "Index", routeValues: new { reportStatus = ViewBag.reportStatus, reworkType = ViewBag.reworkType }, htmlAttributes: null)
         </div>
 
 

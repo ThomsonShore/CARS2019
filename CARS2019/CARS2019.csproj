@@ -213,6 +213,7 @@
     <Content Include="Content\jq.css" />
     <Content Include="Content\jquery-ui.min.css" />
     <Content Include="Content\jquery.tablesorter.pager.min.css" />
+    <Content Include="Content\logo.png" />
     <Content Include="Content\prettify.css" />
     <Content Include="Content\theme.blue.css" />
     <Content Include="Content\theme.bootstrap_3.css" />
@@ -220,6 +221,7 @@
     <Content Include="Content\theme.default.min.css" />
     <Content Include="Content\theme.grey.css" />
     <Content Include="Content\theme.ice.css" />
+    <Content Include="Content\thomson-shore-logo.png" />
     <Content Include="Content\widget.grouping.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -307,6 +309,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Reports\Details.cshtml" />
     <Content Include="Views\Shared\_DepartmentChex.cshtml" />
+    <Content Include="Views\Reports\ChangeStatus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

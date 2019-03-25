@@ -4,7 +4,7 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>Edit @Model.reworkType</h2>
 <hr />
 
 
@@ -66,47 +66,51 @@
             @Html.ValidationMessageFor(model => model.problem_ID, "", new { @class = "text-danger" })
         </div>
     </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.severity_id, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(model => model.severity_id, new List<SelectListItem>
-                {
-                new SelectListItem{ Text="Minor", Value = "Minor" },
-                new SelectListItem{ Text="Major", Value = "Major" },
-                new SelectListItem{ Text="Critical", Value = "Critical" }
-                })
-        </div>
-    </div>
-
-    @if (Session["canSeeEmployee"] != null)
+    @if (Model.reworkType == "TR")
     {
-        if (Session["canSeeEmployee"].ToString() == "True")
-        {
-            <div class="form-group">
-                @Html.LabelFor(model => model.rework_employee, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.rework_employee, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.rework_employee, "", new { @class = "text-danger" })
-                </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.severity_id, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.severity_id, new List<SelectListItem>
+                    {
+                    new SelectListItem{ Text="Minor", Value = "Minor" },
+                    new SelectListItem{ Text="Major", Value = "Major" },
+                    new SelectListItem{ Text="Critical", Value = "Critical" }
+                    })
             </div>
+        </div>
 
-        }
-        else
+        if (Session["canSeeEmployee"] != null)
         {
-            @Html.HiddenFor(model => model.rework_employee)
+            if (Session["canSeeEmployee"].ToString() == "True")
+            {
+                <div class="form-group">
+                    @Html.LabelFor(model => model.rework_employee, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.rework_employee, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.rework_employee, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            }
+            else
+            {
+                @Html.HiddenFor(model => model.rework_employee)
+            }
+
+
         }
 
+        <div class="form-group">
+            @Html.LabelFor(model => model.calculated_cost, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.calculated_cost, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.calculated_cost, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
     }
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.calculated_cost, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.calculated_cost, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.calculated_cost, "", new { @class = "text-danger" })
-        </div>
-    </div>
 
     <div class="form-group">
         @Html.LabelFor(model => model.expectedQuantity, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -156,6 +160,17 @@
         </div>
     </div>
 
+    @if (Model.reworkType == "VR")
+    {
+        <div class="form-group">
+            @Html.LabelFor(model => model.vendor, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.vendor, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.vendor, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    }
+
     <div class="form-group">
         @Html.LabelFor(model => model.SOMaterials, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
@@ -172,11 +187,11 @@
     </div>
 
     @*<div class="form-group">
-        @Html.LabelFor(model => model.throwOutDate, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            <input type="date" name="throwOutDate" id="throwOutDate" value="@(Model.throwOutDate == DateTime.MinValue ? "" : String.Format("{0:yyyy-MM-dd}", Model.throwOutDate))" class="form-control-sm col-3" data-itemid="throwOutDate">
-        </div>
-    </div>*@
+            @Html.LabelFor(model => model.throwOutDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="date" name="throwOutDate" id="throwOutDate" value="@(Model.throwOutDate == DateTime.MinValue ? "" : String.Format("{0:yyyy-MM-dd}", Model.throwOutDate))" class="form-control-sm col-3" data-itemid="throwOutDate">
+            </div>
+        </div>*@
 
     <div class="form-group">
         @Html.LabelFor(model => model.notes, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -221,6 +236,8 @@
             @Html.EditorFor(model => model.created_Date, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.created_Date, "", new { @class = "text-danger" })
         </div>
+        @Html.Hidden("reportStatus", Model.reportStatus)
+        @Html.Hidden("reworkType", Model.reworkType)
     </div>
 
     @Html.Partial("_DepartmentChex", ViewData["checkedDepartmentList"])
@@ -266,7 +283,7 @@
 
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index", routeValues: new { reportStatus = Model.reportStatus, reworkType = Model.reworkType }, htmlAttributes: null)
 </div>
 
 <script>

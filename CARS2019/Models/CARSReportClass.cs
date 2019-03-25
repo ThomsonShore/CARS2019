@@ -52,12 +52,45 @@ namespace CARS2019.Models
             return emails;
         }
 
-
         public static List<Reports> GetAllReports()
         {
             var report = new Reports();
             var reportList = new List<Reports>();
-            reportList = repository.Query<Reports>(@"exec tsprod.dbo."+ SPDebug +" @TranType='GetAllReports'", report).ToList();
+            reportList = repository.Query<Reports>(@"exec tsprod.dbo." + SPDebug + " @TranType='GetAllReports'", report).ToList();
+            repository.Dispose();
+            return reportList;
+        }
+
+        // added this method 3-21-19 jb
+        public static List<Reports> GetAllReports(int reportStatus, string reworkType)
+        {
+            
+            var rework = reworkType ?? "TR";
+            var report = new Reports();
+            var reportList = new List<Reports>();
+            reportList = repository.Query<Reports>(@"exec tsprod.dbo." + SPDebug + " @TranType='GetAllReports', @reportStatus=" + reportStatus + ", @reworkType=" + rework, report).ToList();
+            repository.Dispose();
+            return reportList;
+        }
+
+
+        // added this method 3-21-19 jb
+        public static List<Reports> GetAllReports(string reworkType)
+        {
+            var rework = reworkType ?? "TR";
+            var report = new Reports();
+            var reportList = new List<Reports>();
+            reportList = repository.Query<Reports>(@"exec tsprod.dbo." + SPDebug + " @TranType='GetAllReports', @reworkType=" + rework, report).ToList();
+            repository.Dispose();
+            return reportList;
+        }
+
+        // this method added 3-14-19 jb
+        public static List<Reports> GetAllReports(int reportStatus)
+        {
+            var report = new Reports();
+            var reportList = new List<Reports>();
+            reportList = repository.Query<Reports>(@"exec tsprod.dbo."+ SPDebug +" @TranType='GetAllReports', @reportStatus=" + reportStatus , report).ToList();
             repository.Dispose();
             return reportList;
         }
@@ -115,8 +148,9 @@ namespace CARS2019.Models
             , string reworkCompleteLocation
             , string SOMaterials
             , string reworkProcess
-
-
+            , string reworkType
+            , string vendor
+            , string reportStatus
 
             )
         {
@@ -149,9 +183,10 @@ namespace CARS2019.Models
                         cmd.Parameters.Add("@proofsRequired", SqlDbType.VarChar).Value = proofsRequired;
                         cmd.Parameters.Add("@reworkCompleteLocation", SqlDbType.VarChar).Value = reworkCompleteLocation;
                         cmd.Parameters.Add("@SOMaterials", SqlDbType.VarChar).Value = SOMaterials;
-                        cmd.Parameters.Add("@reworkProcess", SqlDbType.VarChar).Value = reworkProcess;
-
-
+                        cmd.Parameters.Add("@reworkProcess", SqlDbType.VarChar).Value = reworkProcess; // added 3-21-19 jb
+                        cmd.Parameters.Add("@reworkType", SqlDbType.VarChar).Value = reworkType;  // added 3-21-19 jb
+                        cmd.Parameters.Add("@vendor", SqlDbType.VarChar).Value = vendor;  // added 3-21-19 jb
+                        cmd.Parameters.Add("@reportStatus", SqlDbType.VarChar).Value = reportStatus;  // added 3-21-19 jb
 
                         cmd.CommandType = CommandType.StoredProcedure;
                         sqlConn.Open();
@@ -208,7 +243,9 @@ namespace CARS2019.Models
             , string reworkCompleteLocation
             , string SOMaterials
             , string reworkProcess
-
+            , string reportStatus  // added 3-21-19 jb
+            , string reworkType  // added 3-21-19 jb
+            , string vendor  // added 3-21-19 jb
             )
         {
             string sp = SPDebug;
@@ -241,7 +278,9 @@ namespace CARS2019.Models
                         cmd.Parameters.Add("@reworkCompleteLocation", SqlDbType.VarChar).Value = reworkCompleteLocation;
                         cmd.Parameters.Add("@SOMaterials", SqlDbType.VarChar).Value = SOMaterials;
                         cmd.Parameters.Add("@reworkProcess", SqlDbType.VarChar).Value = reworkProcess;
-
+                        cmd.Parameters.Add("@reportStatus", SqlDbType.VarChar).Value = reportStatus;  // added 3-21-19 jb
+                        cmd.Parameters.Add("@reworkType", SqlDbType.VarChar).Value = reworkType;  // added 3-21-19 jb
+                        cmd.Parameters.Add("@vendor", SqlDbType.VarChar).Value = vendor;  // added 3-21-19 jb
                         cmd.CommandType = CommandType.StoredProcedure;
                         sqlConn.Open();
                         SqlDataReader sqlDr = cmd.ExecuteReader();
@@ -318,7 +357,73 @@ namespace CARS2019.Models
                 MailSendHelper.SendingErrorEmail("donotreply@tshore.com", "jbrennan@tshore.com", emailBody);
                 return errorCode;
             }
-}
+        }
+
+        public static int ChangeStatus(int id, int status)
+        {
+            string sp = SPDebug;
+            string strStatus = "ERROR";
+            switch (status)
+            {
+                case -1:
+                    strStatus = "DELETED";
+                    break;
+                case 0:
+                    strStatus = "ACTIVE";
+                    break;
+                case 1:
+                    strStatus = "COMPLETE";
+                    break;
+                default:
+                    strStatus = "ERROR - INVALID STATUS CODE";
+                    break;
+            }
+
+            int errorCode = 1; // set errorcode to fail until we succeed ;)
+            try
+            {
+                using (SqlConnection sqlConn = new SqlConnection(repository.ConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(sp, sqlConn))
+                    {
+                        cmd.Parameters.Add("@TranType", SqlDbType.VarChar).Value = "ChangeStatus";
+                        cmd.Parameters.Add("@reportID", SqlDbType.VarChar).Value = id;
+                        cmd.Parameters.Add("@reportStatus", SqlDbType.VarChar).Value = status;
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        sqlConn.Open();
+                        SqlDataReader sqlDr = cmd.ExecuteReader();
+                        if (sqlDr.HasRows)
+                        {
+                            sqlDr.Read();
+                            if (sqlDr.GetInt32(0) == 0)
+                            {
+                                // Successs!
+                                errorCode = 0;
+                                //var emailBody = "CARSReportClass Report Status Updated to : " + strStatus + "<br /> For Report ID:" + id.ToString();
+                                //MailSendHelper.SendingErrorEmail("donotreply@tshore.com", "jbrennan@tshore.com", emailBody);
+                            }
+                            else
+                            {
+                                // Fail :(
+                                Console.WriteLine("CARSReportClass Error Excuting: " + sp + " CHANGE STATUS FAILED " + sqlDr.GetString(1));
+                                var emailBody = "CARSReportClass Report Status Failed : " + strStatus + "<br /> For Report ID:" + id.ToString();
+                                MailSendHelper.SendingErrorEmail("donotreply@tshore.com", "jbrennan@tshore.com", emailBody);
+                            }
+                        }
+                        return errorCode;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                Console.WriteLine("CARSReportClass Error Excuting: " + sp + " CHANGE STATUS ");
+                var emailBody = "CARSReportClass Error Excuting: " + sp + " CHANGE STATUS <br />" + ex.ToString();
+                MailSendHelper.SendingErrorEmail("donotreply@tshore.com", "jbrennan@tshore.com", emailBody);
+                return errorCode;
+            }
+        }
 
 
         public static List<DepartmentCheck> GetCARSDepartmentCheck()
@@ -438,10 +543,10 @@ namespace CARS2019.Models
         [Required]
         [Display(Name = "Problem")]
         public string problem_ID { get; set; }
-        [Required]
+
         [Display(Name = "Severity")]
         public string severity_id { get; set; }
-        [Required]
+
         [Display(Name = "Employee")]
         public string rework_employee { get; set; }
         [Required]
@@ -453,7 +558,7 @@ namespace CARS2019.Models
         public string throwOutInitials { get; set; }
         //[Display(Name = "Throw Out Date")]
         //public DateTime? throwOutDate { get; set; }
-        [Required]
+
         [Display(Name = "Cost")]
         public decimal? calculated_cost { get; set; }
         [Display(Name = "Rework Description")]
@@ -473,6 +578,12 @@ namespace CARS2019.Models
         public string SOMaterials { get; set; }
         [Display(Name = "Rework Process")]
         public string reworkProcess { get; set; }
+        [Display(Name = "Status")]
+        public string reportStatus { get; set; }
+        [Display(Name = "Rework Type")]
+        public string reworkType { get; set; }
+        [Display(Name = "Vendor")]
+        public string vendor { get; set; }
 
 
         public System.DateTime created_Date { get; set; }

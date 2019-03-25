@@ -16,10 +16,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/10/2013 16:29:20</publishTime>
     </File>
     <File Include="bin/CARS2019.dll">
-      <publishTime>03/14/2019 11:07:34</publishTime>
+      <publishTime>03/25/2019 08:01:04</publishTime>
     </File>
     <File Include="bin/CARS2019.pdb">
-      <publishTime>03/14/2019 11:07:34</publishTime>
+      <publishTime>03/25/2019 08:01:04</publishTime>
     </File>
     <File Include="bin/Dapper.dll">
       <publishTime>05/16/2018 18:40:30</publishTime>
@@ -265,7 +265,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/23/2014 13:57:34</publishTime>
     </File>
     <File Include="Content/bootstrap.css">
-      <publishTime>01/07/2019 08:04:03</publishTime>
+      <publishTime>03/22/2019 10:37:35</publishTime>
     </File>
     <File Include="Content/bootstrap.css.map">
       <publishTime>01/07/2019 08:04:03</publishTime>
@@ -381,11 +381,14 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Content/jquery.tablesorter.pager.min.css">
       <publishTime>01/03/2019 09:48:53</publishTime>
     </File>
+    <File Include="Content/logo.png">
+      <publishTime>03/22/2019 13:12:06</publishTime>
+    </File>
     <File Include="Content/prettify.css">
       <publishTime>01/03/2019 08:33:00</publishTime>
     </File>
     <File Include="Content/Site.css">
-      <publishTime>02/15/2019 14:17:19</publishTime>
+      <publishTime>03/22/2019 11:46:59</publishTime>
     </File>
     <File Include="Content/theme.blue.css">
       <publishTime>01/03/2019 08:29:02</publishTime>
@@ -404,6 +407,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Content/theme.ice.css">
       <publishTime>01/31/2019 15:23:27</publishTime>
+    </File>
+    <File Include="Content/thomson-shore-logo.png">
+      <publishTime>03/21/2019 14:41:16</publishTime>
     </File>
     <File Include="Content/widget.grouping.css">
       <publishTime>01/31/2019 12:44:34</publishTime>
@@ -598,22 +604,25 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/31/2018 09:29:31</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>01/27/2019 14:08:25</publishTime>
+      <publishTime>03/22/2019 13:16:19</publishTime>
+    </File>
+    <File Include="Views/Reports/ChangeStatus.cshtml">
+      <publishTime>03/22/2019 07:52:17</publishTime>
     </File>
     <File Include="Views/Reports/Create.cshtml">
-      <publishTime>03/14/2019 10:54:24</publishTime>
+      <publishTime>03/21/2019 14:21:07</publishTime>
     </File>
     <File Include="Views/Reports/Delete.cshtml">
-      <publishTime>03/14/2019 11:00:38</publishTime>
+      <publishTime>03/22/2019 07:52:17</publishTime>
     </File>
     <File Include="Views/Reports/Details.cshtml">
-      <publishTime>03/14/2019 10:55:02</publishTime>
+      <publishTime>03/22/2019 08:27:51</publishTime>
     </File>
     <File Include="Views/Reports/Edit.cshtml">
-      <publishTime>03/14/2019 10:54:37</publishTime>
+      <publishTime>03/22/2019 07:52:17</publishTime>
     </File>
     <File Include="Views/Reports/Index.cshtml">
-      <publishTime>03/14/2019 10:55:26</publishTime>
+      <publishTime>03/22/2019 13:17:17</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>12/28/2018 07:53:19</publishTime>
@@ -622,10 +631,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/27/2019 10:42:21</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>02/01/2019 09:10:24</publishTime>
+      <publishTime>03/22/2019 13:37:45</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
-      <publishTime>01/04/2019 08:25:30</publishTime>
+      <publishTime>03/22/2019 13:36:19</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>12/28/2018 07:53:19</publishTime>
