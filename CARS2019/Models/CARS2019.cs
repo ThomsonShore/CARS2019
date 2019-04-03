@@ -16,6 +16,12 @@ namespace CARS2019.Models
 
     }
 
+    public partial class CARSProblemList
+    {
+        public int ProblemID { get; set; }
+        public string ProblemDescription { get; set; }
+    }
+
     public class CARSJobDetails
     {
         public string job_id { get; set; }

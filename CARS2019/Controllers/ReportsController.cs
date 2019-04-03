@@ -119,16 +119,50 @@ namespace CARS2019.Controllers
         [SessionExpire]
         public ActionResult Create(int reportStatus, string reworkType)
         {
-            var items = CARS2019.Models.TSProd.CARSDepartmentList().ToList();
             ViewBag.reportStatus = reportStatus;
             ViewBag.reworkType = reworkType;
-            //CARS2019.Models.TSProd.Reports
 
+
+            if (reworkType == "VR")
+            {
+                ViewBag.departmentID = "Vendor";
+                ViewBag.problemID = "Vendor Problem";
+            }
+
+            if (reworkType == "CR")
+            {
+                ViewBag.departmentID = "Customer";
+                ViewBag.problemID = "Customer Problem";
+            }
+            var selectList = CARS2019.Models.TSProd.CARSDepartmentList(reworkType).ToList();
+            if (selectList != null)
+            {
+                if (reworkType == "TR")
+                {
+                    selectList.Insert(0, (new CARSDepartmentList { id = -1, departmentName = "Select Department" }));
+                    var deptList = CARS2019.Models.TSProd.GetDepartmentProblemsList("-1");
+                    ViewBag.deptList = deptList;
+                }
+                ViewBag.selectList = selectList;
+            }
+            if (reworkType == "VR")
+            {
+                var deptList = CARS2019.Models.TSProd.GetDepartmentProblemsList("Vendor");
+                ViewBag.deptList = deptList;
+            }
+
+            if (reworkType == "CR")
+            {
+                var deptList = CARS2019.Models.TSProd.GetDepartmentProblemsList("Customer");
+                ViewBag.deptList = deptList;
+            }
+
+
+            var items = CARS2019.Models.TSProd.CARSDepartmentList().ToList();
             if (items != null)
             {
                 ViewBag.data = items;
             }
-
             return View();
         }
 

@@ -104,6 +104,22 @@ namespace CARS2019.Models
             return departmentList;
         }
 
+        public static List<CARSDepartmentList> CARSDepartmentList(string reworkType)
+        {
+            var department = new CARSDepartmentList();
+            var departmentList = new List<CARSDepartmentList>();
+            departmentList = repository.Query<CARSDepartmentList>(@"exec tsprod.dbo." + SPDebug + " @TranType='GetAllDepartments', @reworkType='" + reworkType + "'", department).ToList();
+            repository.Dispose();
+            return departmentList;
+        }
+
+        //public static List<CARSProblemList> CARSDepartmentProblemList()
+        //{
+        //    var prob = new CARSProblemList();
+        //    var probList = new List<CARSProblemList>();
+        //    probList.Insert(0, (new CARSProblemList { ProblemID = -1, ProblemDescription = "You must select a Deparment First" }));
+
+        //}
 
         public static Reports ReportGivenID(int id)
         {
@@ -114,9 +130,22 @@ namespace CARS2019.Models
         public static List<Lists> GetDepartmentProblemsList(string deptId)
         {
             var list = new Lists();
-            List<Lists> problems = repository.Query<Lists>(@"exec tsprod.dbo."+ SPDebug +" @TranType='GetProblemListGivenDepartmentID' , @DepartmentID='" + deptId + "'", list).ToList();
-            repository.Close();
-            return problems;
+
+            if (deptId == "-1")
+            {
+                var problems = new List<Lists>();
+                problems.Insert(0, (new Lists { ProblemID = "-1", ProblemDescription = "You must select a Deparment First" }));
+                // selectList.Insert(0, (new CARSDepartmentList { id = -1, departmentName = "Select Department" }));
+                //List<Lists> problems = 
+                return problems;
+            } else
+            {
+                List<Lists> problems = repository.Query<Lists>(@"exec tsprod.dbo." + SPDebug + " @TranType='GetProblemListGivenDepartmentID' , @DepartmentID='" + deptId + "'", list).ToList();
+                repository.Close();
+                return problems;
+            }
+            
+
         }
 
         public static List<CARSJobDetails> GetCARSJobDetails(string jobNumber)
@@ -534,7 +563,6 @@ namespace CARS2019.Models
         [Required]
         [Display(Name = "Reported By")]
         public string reporting_employee { get; set; }
-
         [Display(Name = "Job")]
         public string job_ID { get; set; }
         [Required]
@@ -546,7 +574,6 @@ namespace CARS2019.Models
 
         [Display(Name = "Severity")]
         public string severity_id { get; set; }
-
         [Display(Name = "Employee")]
         public string rework_employee { get; set; }
         [Required]

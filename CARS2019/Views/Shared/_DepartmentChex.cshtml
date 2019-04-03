@@ -11,16 +11,27 @@
                 @{
                     int cnt = 0;
                     List<CARS2019.Models.CARSDepartmentList> departments = ViewBag.data;
+
+
+
                     foreach (var department in departments)
                     {
-                        if (cnt++ % 4 == 0)
+                        if (department.departmentName == "Customer" || department.departmentName == "Vendor")
                         {
-                        @:  </tr> <tr>
+                            @:
                         }
-                        @: <td>
-                            @Html.CheckBox(@department.departmentName, false, htmlAttributes: new { name = @department.departmentName, value = @department.id });
-                            @department.departmentName
-                        @:</td>
+                        else
+                        {
+                            if (cnt++ % 4 == 0)
+                            {
+                            @:  </tr> <tr>
+                            }
+                            @: <td>
+                                @Html.CheckBox(@department.departmentName, false, htmlAttributes: new { name = @department.departmentName, value = @department.id });
+                                @department.departmentName
+                            @:</td>
+                        }
+
                     }
                 @: </tr>
                 }

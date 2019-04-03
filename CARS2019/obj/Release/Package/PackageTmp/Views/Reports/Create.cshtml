@@ -51,24 +51,26 @@
     </div>
 
 
-    <div class="form-group">
+    <div id="hideDept" class="form-group" hidden>
         @Html.LabelFor(model => model.department_ID, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownListFor(model => model.department_ID, new SelectList(ViewBag.data, "departmentName", "departmentName"), "Select Department")
+            @Html.DropDownListFor(model => model.department_ID, new SelectList(ViewBag.selectList, "departmentName", "departmentName") )
             @Html.ValidationMessageFor(model => model.department_ID, "", new { @class = "text-danger" })
         </div>
     </div>
 
-    <div class="form-group">
+    <div id="hideProb" class="form-group" hidden>
         @Html.LabelFor(model => model.problem_ID, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownListFor(model => model.problem_ID, new SelectList(Enumerable.Empty<SelectListItem>()), "You must select a Deparment First")
+            @Html.DropDownListFor(model => model.problem_ID, new SelectList(ViewBag.deptList, "ProblemID", "ProblemDescription"))
             @Html.ValidationMessageFor(model => model.problem_ID, "", new { @class = "text-danger" })
         </div>
     </div>
 
+
+
     @if (ViewBag.reworkType == "TR")
-    {
+            {
 
         <div class="form-group">
             @Html.LabelFor(model => model.severity_id, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -151,7 +153,7 @@
     </div>
 
     @if (ViewBag.reworkType == "VR")
-    {
+            {
         <div class="form-group">
             @Html.LabelFor(model => model.vendor, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -226,46 +228,22 @@
 
                         foreach (var department in departments)
                         {
-                            if (cnt++ % 4 == 0)
+                            if (department.departmentName == "Customer" || department.departmentName == "Vendor")
                             {
-                            @:  </tr> <tr>
+                                @:
                             }
-                            @: <td>
+                            else
+                            {
+                                if (cnt++ % 4 == 0)
+                                {
+                                @:  </tr> <tr>
+                                }
+                                @: <td>
+                                    @Html.CheckBox(@department.departmentName, false, htmlAttributes: new { name = @department.departmentName, value = @department.id });
+                                    @department.departmentName
+                                @:</td>
+                            }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                @Html.CheckBox(@department.departmentName, false, htmlAttributes: new { name = @department.departmentName, value = @department.id });
-                                @department.departmentName
-                            @:</td>
                         }
                     @: </tr>
                     }
@@ -308,7 +286,39 @@
         }
     });
 
+
     $(document).ready(function () {
+            @if (ViewBag.reworkType == "TR")
+            {
+                @:$("#hideDept").show();
+                @:$("#hideProb").show();
+            }
+        if ($("#department_ID").val() !== "Select Department") {
+
+            var ProblemsFromJSON = {};
+            ProblemsFromJSON.url = "/Reports/ProblemList/?deptID=" + $("#department_ID").val();
+            //console.log(ProblemsFromJSON.url);
+            ProblemsFromJSON.type = "POST";
+            ProblemsFromJSON.datatype = "json";
+            ProblemsFromJSON.contentType = "application/json";
+            ProblemsFromJSON.success = function (problemList) {
+                obj = $.parseJSON(problemList);
+                //console.log(obj);
+                $("#problem_ID").empty();
+                $.each(obj, function (key, value) {
+                    $("#problem_ID").append($('<option></option>').val(value.ProblemID).html(value.ProblemDescription));
+                });
+                $("#problem_ID").prop("disabled", false);
+            };
+
+            ProblemsFromJSON.error = function () {
+                alert("Error in Getting problem_ID!!");
+            };
+            $.ajax(ProblemsFromJSON);
+        }
+
+
+
         $("#throwOutDate").rules("remove", "required")
         var userFromCookie = "@HttpContext.Current.Request.Cookies["carsCookie"].Value";
         //console.log(userFromCookie);
